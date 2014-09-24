@@ -1,0 +1,1 @@
+module libfoo;extern (C) {   int f(int, int);   void split(const(char)* str1);   const(char)* lower(char* str1);   void orf(char* str1);   // un puntatore a const(char)}
