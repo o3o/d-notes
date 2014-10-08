@@ -1,0 +1,12 @@
+{
+   "name": "hello",
+   "description": "Test gtkd builder",
+   "authors": ["ODV"],
+   "homepage": "",
+   "license": "GPL v2",
+   "targetType":  "executable",
+   "targetPath": "bin",
+   "dependencies": {
+      "gtk-d:gtkd": ">=2.4.0"
+   }
+}

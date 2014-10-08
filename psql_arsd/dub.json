@@ -1,0 +1,13 @@
+{
+   "name": "arsd_test",
+   "description": "A minimal D application.",
+   "copyright": "Copyright © 2014, dao",
+   "authors": ["dao"],
+   "libs-posix": ["pq"],
+   "libs-windows": ["libpq"],
+   "sourceFiles-windows-x86" : [ "libpq.lib" ],
+
+   "dependencies": {
+      
+      }
+}

@@ -1,0 +1,11 @@
+{
+   "name": "hello",
+   "description": "Test gtkd",
+   "authors": ["ODV"],
+   "homepage": "",
+   "license": "GPL v2",
+   "targetType":  "executable",
+   "dependencies": {
+      "gtk-d:gtkd": ">=2.4.0"
+   }
+}
