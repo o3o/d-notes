@@ -1,0 +1,82 @@
+NAME = hello.exe
+VERSION = 0.1.0
+#IS_LIB = 
+
+D_DIR = 
+ROOT_SOURCE_DIR = src
+
+SRC = $(wildcard $(ROOT_SOURCE_DIR)/*.d)
+
+# -----------
+# libraries
+# -----------
+LIB += $(D_DIR)/dejector/dejector.lib
+INCLUDES += -I$(D_DIR)/dejector/source
+
+# gtkd 
+# -----------
+LIB += $(D_DIR)/GtkD/gtkd-2.lib
+INCLUDES += -I$(D_DIR)/GtkD/src
+LDFLAGS = -L-ldl
+LDFLAGS += -L/SUBSYSTEM:WINDOWS
+
+
+# -----------
+# Compiler flag
+# -----------
+DFLAGS += $(if $(IS_LIB), -lib, )
+## -debug compile in debug code
+DFLAGS += -debug
+## -g add symbolic debug info
+#DFLAGS += -g 
+## -w  warnings as errors (compilation will halt)
+#DFLAGS += -w
+##-wi warnings as messages (compilation will continue)
+DFLAGS += -wi
+DFLAGS += -m32
+
+# -----------
+# Linker flag
+# -----------
+#LDFLAGS += 
+#LDFLAGS += -L-L/usr/lib/
+
+## si usa make VERS=x
+VERSION_FLAG = $(if $(VERS), -version=$(VERS), )
+
+###############
+# Common part
+###############
+DEFAULT: all
+BIN = bin
+DMD = dmd
+BASE_NAME = $(basename $(NAME))
+
+.PHONY: all clean clobber 
+
+all: $(BIN)/$(NAME)
+
+$(BIN)/$(NAME): $(SRC) $(LIB)
+	$(DMD) $^ $(DFLAGS) $(INCLUDES) $(LDFLAGS) $(VERSION_FLAG) -of$@
+
+run: all
+	$(BIN)/$(NAME)
+
+clean:
+	-rm -f $(BIN)/*.o
+	-rm -f $(BIN)/__*
+
+clobber:
+	-rm -f $(BIN)/*
+
+var:
+	@echo $(D_DIR):$($(D_DIR))
+	@echo SRC:$(SRC)
+	@echo INCLUDES: $(INCLUDES)
+	@echo
+	@echo DFLAGS: $(DFLAGS)
+	@echo LDFLAGS: $(LDFLAGS)
+	@echo VERSION: $(VERSION_FLAG)
+	@echo
+	@echo T: $(T)
+
