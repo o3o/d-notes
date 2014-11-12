@@ -31,6 +31,9 @@ void main(string[] args) {
 
    writeln("print array ", ar);
    printWithPointer(ar.ptr, 3);
+
+   string x = "cul";
+   write(x);
 }
 
 void printWithPointer(void* data, int length) {
@@ -55,4 +58,10 @@ void increase(void* data, int psize) {
       pint=cast(int*)data;
       ++(*pint); 
    }
+}
+
+void write(const(void[]) arr) {
+   string s = cast(string)(arr);
+   writeln(s);
+   
 }
