@@ -10,9 +10,13 @@
 */
 
 module arsd.sqlite;
+
+/* Rimosso per test
 pragma(lib, "sqlite3");
 version(linux)
 pragma(lib, "dl"); // apparently sqlite3 depends on this
+*/
+
 public import arsd.database;
 
 import std.exception;
