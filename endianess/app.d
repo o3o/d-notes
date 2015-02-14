@@ -1,6 +1,7 @@
 import std.system;      
 import std.bitmanip;
 import std.stdio;
+import std.array;
 
 void main(string[] args) { }
 unittest { 
@@ -87,10 +88,31 @@ unittest {
    }
    writeln(s);
 }
+
 unittest {
    import std.conv;
-   //convertire un array di ubyte in stinga
+   //convertire un array di ubyte in stringa
    ubyte[] blob = [0x4f, 0x52, 0x46, 0x45, 0x4f];
    string s = cast(string)blob;
    writeln(s);
+}
+unittest {
+   writeln("native to litte");
+
+   ushort i = 0x8034;
+   ubyte[2] swappedI = nativeToLittleEndian(i);
+   writefln("%(0x%X %)", swappedI);
+
+   auto buffer = appender!(const (ubyte[]))();
+   ushort[] a = [0x3480, 0x2010];
+   foreach (e; a) {
+      buffer.append!(ushort, Endian.littleEndian)(e);
+   }
+   const(int[]) x = [0, 1]; 
+   const(int)[] y = [0, 1];
+   const int[] z = [0, 1]; // ==> const(int[])
+   // x ~= 1; NO
+   y ~= 1;
+   // z ~= 1;  NO
+
 }
