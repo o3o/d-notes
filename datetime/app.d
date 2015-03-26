@@ -1,7 +1,8 @@
 //http://forum.dlang.org/post/yfbigktpvhprtxneejyx@forum.dlang.org
-
+//http://forum.dlang.org/post/ip4eab$255p$1@digitalmars.com
 import std.stdio;
 import std.datetime;
+import std.conv;
 void main() {
    SysTime now = Clock.currTime; 
    writeln("now: ", now);
@@ -11,8 +12,8 @@ void main() {
    writeln("now tostring: ", now.toString);
 
    writeln("now unix time:", now.toUnixTime);
-   //http://dlang.org/intro-to-datetime.html
 
+   //http://dlang.org/intro-to-datetime.html
    // calcola utc, quindi per avere la mezzanotte UTC si deve usare l'una
    // italiana
    auto st = SysTime(DateTime(1970, 1, 2, 1, 0, 0));
@@ -20,8 +21,19 @@ void main() {
    writeln("to unix time:", st.toUnixTime);
 
    // viceversa
-   auto stdTime = unixTimeToStdTime(86400);
+   // sec dall'anno zero
+   long stdTime = unixTimeToStdTime(86400);
+  
+   writeln("86400s in stdTime: ", stdTime);
+
    st = SysTime(stdTime);
    writeln("86400s: ", st);
+   immutable(TimeZone) tz = TimeZone.getTimeZone("Etc/UCT");
+   auto gtm = SysTime(stdTime, tz);
+   writeln("GTM 86400s: ", gtm);
 
+   auto x = DateTime(1970, 1, 1, 0, 0, 0) + dur!"seconds"(86400);
+   writeln("con somma ", x);
+
+   writeln("datetime iso:", to!DateTime(now).toISOString());
 }
