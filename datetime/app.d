@@ -35,5 +35,8 @@ void main() {
    auto x = DateTime(1970, 1, 1, 0, 0, 0) + dur!"seconds"(86400);
    writeln("con somma ", x);
 
-   writeln("datetime iso:", to!DateTime(now).toISOString());
+   DateTime nowDt = to!DateTime(now);
+   writeln("datetime iso:", nowDt.toISOString());
+   writeln("datetime now Simple: ", nowDt.toSimpleString);
+   writeln("datetime now tostring: ", nowDt.toString);
 }
