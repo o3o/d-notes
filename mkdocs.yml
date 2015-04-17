@@ -1,0 +1,6 @@
+site_name: elsa prove vita Elbi
+pages:
+- [index.md, Home]
+- [array-of-void.md, array di void]
+
+theme: readable
