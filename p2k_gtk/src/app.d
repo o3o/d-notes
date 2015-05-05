@@ -39,46 +39,64 @@ int main(string[] args) {
    }
 
    Window w = cast(Window)builder.getObject("window1");
+   assert(w !is null);
 
-   if (w !is null) {
-      w.setTitle("This is a glade window");
-      w.addOnHide(delegate void(Widget aux) {
-         exit(0);
-      });
+   w.setTitle("Plot2Kill test");
+   w.addOnHide(delegate void(Widget aux) { exit(0); });
 
-      Button b = cast(Button)builder.getObject("button1");
-      if (b !is null) {
-         b.addOnClicked((Button aux) => exit(0));
-      }
+   Button quit = cast(Button)builder.getObject("quit");
+   assert(quit !is null);
+   quit.addOnClicked((Button aux) => exit(0));
 
-      EventBox eb = cast(EventBox)builder.getObject("eb");
+   Button add = cast(Button)builder.getObject("add");
+   assert(add !is null);
 
-      // Test error bars.
-      auto errs = [0.1, 0.2, 0.3, 0.4];
-      // usa static opCall...anche se e' deprecato
-      LineGraph linesWithErrors = LineGraph([1,2,3,4], [1,2,3,8], errs, errs);
-      linesWithErrors.lineColor = getColor(255, 0, 0);
+   EventBox eb = cast(EventBox)builder.getObject("eb");
+   assert(eb !is null);
+   // Test error bars.
+   auto errs = [0.1, 0.2, 0.3, 0.4];
+   // usa static opCall...anche se e' deprecato
+   LineGraph line0 = LineGraph([1,2,3,4], [1,2,3,8], errs, errs);
+   line0.lineColor = getColor(255, 0, 0);
 
-      LineGraph line2 = LineGraph([1,2,3,4], [8,3,2,1]);
-      line2.lineColor = getColor(0, 255, 0);
+   LineGraph line1 = LineGraph([1,2,3,4], [8,3,2,1]);
+   line1.lineColor = getColor(0, 255, 0);
 
-      /*
-       * Il construttore di Figure e' scope `package` e quindi non puo'
-       * essere chiamato:
-       * auto fig = new Figure; ///NON funziona
-       * pero Figure ha una `static opCall` che permettono di creare la classe
-       * (senza new). L'uso di opCall e' comunque deprecato
-       */
+   LineGraph line2 = LineGraph([1,2,3,4], [9,2,3,4]);
+   line2.lineColor = getColor(0, 0, 255);
 
-      Figure fig = Figure(linesWithErrors, line2);
+   /*
+    * Il construttore di Figure e' scope `package` e quindi non puo'
+    * essere chiamato:
+    * auto fig = new Figure; ///NON funziona
+    * pero Figure ha una `static opCall` che permettono di creare la classe
+    * (senza new). L'uso di opCall e' comunque deprecato
+    */
+   Figure fig = Figure();
+   int count = 0;
+   auto wid = fig.toWidget();
+   eb.add(wid);
+   add.addOnClicked(delegate void (Button aux) {
+         switch (count) {
+            case 0:
+               fig.addPlot(line0);
+               break;
+            case 1:
+               fig.addPlot(line1);
+               break;
+            case 2:
+               fig.addPlot(line2);
+               break;
+            default:
+         }
+         ++count;
+         wid.draw();
+         //eb.removeAll();
+         //eb.add(wid);
+         eb.showAll();
+         } );
 
-      fig.title = "Error Bars";
-      auto wid = fig.toWidget();
-      eb.add(wid);
-   } else {
-      writefln("No window?");
-      exit(1);
-   }
+   fig.title = "Error Bars";
 
    w.showAll();
    Main.run();
