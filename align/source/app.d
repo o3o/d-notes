@@ -1,12 +1,14 @@
 import std.stdio;
 import std.algorithm : equal;
 
+// anche se non dichiarato `align` e' sempre impostato al default del
+// compilatore (es. 4)
 struct X {
-   char a;
-   int b;
-   char c;
-   int d;
-   char e;
+   char a; // pos. all'offset 0
+   int b;  // pos. all'offset 4
+   char c;// pos. all'offset 8
+   int d; // pos. all'offset 12
+   char e;// pos. all'offset 16
 } unittest {
    X s;
    assert(s.sizeof == 20);
@@ -17,10 +19,10 @@ struct X {
    assert(s.e.offsetof == 16);
 }
 struct Y {
-   char a;
-   int b;
-   char c;
-   char d;
+   char a; // pos. all'offset 0
+   int b;  // pos. all'offset 4
+   char c; // pos. all'offset 8
+   char d; // pos. all'offset 12? no, al 9
 } unittest {
    Y s;
    assert(s.sizeof == 12);
@@ -29,20 +31,45 @@ struct Y {
    assert(s.c.offsetof == 8);
    assert(s.d.offsetof == 9);
 }
+align(4)
 struct Y4 {
-   align(4):
-   char a;
-   int b;
-   char c;
-   char d;
+   char a; // pos. all'offset 0
+   int b;  // pos. all'offset 4
+   char c; // pos. all'offset 8
+   char d; // pos. all'offset 12? no, al 9
 } unittest {
    Y4 s;
+   assert(s.sizeof == 12);
+   assert(s.a.offsetof == 0);
+   assert(s.b.offsetof == 4);
+   assert(s.c.offsetof == 8);
+   assert(s.d.offsetof == 9);
+}
+struct YY {
+   Y4 x;
+   Y4 y;
+} unittest {
+   YY s;
+   assert(s.sizeof == 24);
+   assert(s.x.offsetof == 0);
+   assert(s.x.d.offsetof == 9);
+   assert(s.y.offsetof == 12);
+}
+struct Y_4 {
+   align(4):
+   char a;// pos. all'offset 0
+   int b; // pos. all'offset 4
+   char c;// pos. all'offset 8
+   char d;// pos. all'offset 12? adesso si!
+} unittest {
+   Y_4 s;
    assert(s.sizeof == 16);
    assert(s.a.offsetof == 0);
    assert(s.b.offsetof == 4);
    assert(s.c.offsetof == 8);
    assert(s.d.offsetof == 12);
 }
+
 struct Z {
    char a;
    int b;
@@ -59,7 +86,6 @@ struct Z {
    assert(s.e.offsetof == 10);
 }
 
-
 // se non indicato align == 4
 struct S_1 {
    align(1):
@@ -71,8 +97,10 @@ struct S_1 {
    S_1 s = S_1(1,2,3,4);
    assert(s.sizeof == 8);
    assert(s.alignof == 4);
+
    assert(s.a.alignof == 1);
    assert(s.a.offsetof == 0);
+
    assert(s.b.offsetof == 1);
    assert(s.c.offsetof == 5);
    assert(s.d.offsetof == 6);
