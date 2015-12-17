@@ -1,9 +1,11 @@
 {
-	"name": "p2kg",
-	"description": "A minimal D application.",
-	"copyright": "Copyright © 2015, o3o",
-	"authors": ["o3o"],
-	"dependencies": {
+   "name": "p2k_test",
+   "description": "Test p2k",
+   "copyright": "Copyright © 2015, o3o",
+   "authors": ["Orfeo Da Viá"],
+   "targetPath": "bin",
+   "lflags-windows": ["/subsystem:windows"],
+   "dependencies": {
       "plot2kill": "~>0.0.2"
-	}
+   }
 }

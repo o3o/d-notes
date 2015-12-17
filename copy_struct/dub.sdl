@@ -1,0 +1,4 @@
+name "copy_struct"
+description "Copy object of class A to another object of class B"
+copyright "Copyright © 2015, dao"
+authors "dao"
