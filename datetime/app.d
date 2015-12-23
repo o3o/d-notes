@@ -3,15 +3,34 @@
 import std.stdio;
 import std.datetime;
 import std.conv;
+import std.string;
 void main() {
-   SysTime now = Clock.currTime; 
-   writeln("now: ", now);
-   writeln("now utc: ", now.toUTC);
-   writeln("now ISO: ", now.toISOString);
-   writeln("now Simple: ", now.toSimpleString);
-   writeln("now tostring: ", now.toString);
+   SysTime now = Clock.currTime;
+   writeln("With SysTime");
+   writeln("----------");
 
-   writeln("now unix time:", now.toUnixTime);
+
+   writeln("now.toUTC         : ", now.toUTC);
+   writeln("now.toISOString   : ", now.toISOString);
+   writeln("now.toSimpleString: ", now.toSimpleString);
+   writeln("now.toString      : ", now.toString);
+   writeln("now.toUnixTime    :", now.toUnixTime);
+
+   DateTime n = DateTime(1999, 7, 6, 9, 7, 5);
+   string yy = "%d-%d-%d:%d".format(n.year, n.month, n.day, n.hour);
+   writeln("With format       :", yy);
+   writeln();
+
+   DateTime dt = cast(DateTime)Clock.currTime;
+   writeln("With DateTime");
+   writeln("----------");
+   writeln("dt.toUTC         : (doesn't exist)");
+   writeln("dt.toISOString   : ", dt.toISOString);
+   writeln("dt.toSimpleString: ", dt.toSimpleString);
+   writeln("dt.toString      : ", dt.toString);
+   writeln("dt.toUnixTime    :(doesn't exist)");
+
+   writeln();
 
    //http://dlang.org/intro-to-datetime.html
    // calcola utc, quindi per avere la mezzanotte UTC si deve usare l'una
@@ -23,7 +42,7 @@ void main() {
    // viceversa
    // sec dall'anno zero
    long stdTime = unixTimeToStdTime(86400);
-  
+
    writeln("86400s in stdTime: ", stdTime);
 
    st = SysTime(stdTime);
