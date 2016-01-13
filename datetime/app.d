@@ -29,6 +29,10 @@ void main() {
    writeln("dt.toSimpleString: ", dt.toSimpleString);
    writeln("dt.toString      : ", dt.toString);
    writeln("dt.toUnixTime    :(doesn't exist)");
+   writeln("dt.year          :", dt.year);
+   writefln("month %d", dt.month);
+   writeln("dt.month         :", dt.month);
+   writeln("dt.minute         :", dt.minute);
 
    writeln();
 
