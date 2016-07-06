@@ -2,3 +2,10 @@
 bin
 .dub
 dub.selections.json
+static_ex/app
+string_empty/app
+align/align
+const_immutable/app
+copy_struct/copy_struct
+endianess/app
+*/app
