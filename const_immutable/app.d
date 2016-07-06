@@ -11,10 +11,13 @@ void main(string[] args) {
    const(int) b = 4;
    static assert(is(typeof(a) == const(int)));
    static assert(is(typeof(b) == const(int)));
+
 }
+
 void foo(const int x) {
    static assert(is(typeof(x) == const(int)));
 }
+
 void bar(ref int x) {
    static assert(is(typeof(x) == int));
 }
@@ -36,4 +39,14 @@ void bar3(in int x) {
 
 void fun(const(int) x) {
    static assert(is(typeof(x) == const(int)));
+}
+
+class Fun {
+
+   private int x;
+
+   int f1() const {
+      // x = 12; NON si compila!
+      return x + 1;
+   }
 }
