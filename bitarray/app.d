@@ -12,12 +12,15 @@ void main(string[] args) {
    BitArray b0;
    BitArray b1 = BitArray([1, 0, 0, 1, 0]);
    BitArray b2 = BitArray([true, false, true, false]);
+   bool[8] init = 0;
+   BitArray b4 = BitArray(init);
 
    // lunghezza
    // --------------------
    writeln("b0.length: ", b0.length);
    writeln("b1.length: ", b1.length);
    writeln("b2.length: ", b2.length);
+   writeln("b4.length: ", b4.length);
 
 
    // get di un bit
