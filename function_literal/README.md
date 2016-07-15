@@ -18,7 +18,7 @@ scambiando:
  |          v
 double function (int x)
  ^          |
- +----------+ 
+ +----------+
 
 ```
 
@@ -41,7 +41,31 @@ Per semplificare la definizione si puo' omettere il tipo ritornato
 ```
 auto f = function (int x) { return x / 10.; };
 ```
-# Dal wiki [1]
 
+# Da Learning D (M. Parker) cap. 2.7.7 pag 85
+Parker distingue tra puntatori a funzione e delegate
+
+Un puntatore ad una funzione puo' essere dichiarato come per una variabile.
+
+```
+void function(int) funcP;
+```
+Per inizializzarlo usare `&`:
+
+```
+void myFunc(int i) {
+   writeln(i);
+}
+
+void main() {
+   void function(int) funcP = &myFunc;
+   funcP(42);
+}
+```
+
+L'operatore `&` per le inner function non ritorna un function pointer ma un delegate
+
+
+# Dal wiki [1]
 
 [1](http://wiki.dlang.org/Function_literals)
