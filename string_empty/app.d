@@ -2,16 +2,17 @@ import std.stdio;
 import std.array;
 
 void main() {
+   // String vuoata
+   //----------------------------------------
    string emptyString = "";
-   writeln("==== empty =====");
+   // una  stringa vuota non e' null
    assert(emptyString !is null);
-   writeln("is null?", emptyString is null); // false
+   writeln("empty is null?", emptyString is null); // false
 
+   // ma ha lunghezza zero
    assert(emptyString.length == 0);
-   writeln("length == 0?", emptyString.length == 0);
    // necessario std.array
    assert(emptyString.empty);
-   writeln("empty?", emptyString.empty);
 
    writeln();
    writeln("==== null =====");
@@ -23,5 +24,4 @@ void main() {
    writeln("is null?", nullString is null);
    writeln("length == 0?", nullString.length == 0);
    writeln("empty?", nullString.empty);
-
 }
