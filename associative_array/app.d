@@ -55,4 +55,53 @@ void main() {
    foreach (k, v; aa3) {
       writeln(k, " == ", v);
    }
+
+
+   // Passare AA a funzioni
+   //----------------------------------------
+   //http://ddili.org/ders/d.en/function_parameters.html
+   // Passare AA come parametri di funzione puo' causare sorprese anche perché gli array associativi iniziano la loro vita come null, non come empty.
+   // In questo contesto, `null` significa un array associativo non inizializzato.
+   // Gli array associativi vengono inizializzati automaticamente quando si aggiunge la loro prima coppia chiave-valore.
+   // Di conseguenza, se una funzione aggiunge un elemento in un array associativo nullo, allora tale elemento non può essere visto nella variabile originale
+   // perché anche se il parametro è inizializzato, la variabile originale rimane
+   // nulla.
+   int[string] aa;    // aa e' null, cioe' il suo prt punta a null
+   assert(!aa.length);
+   appendElement(aa);
+   assert(!aa.length);
+
+   int[string] nn = ["blue": 10];    // nn non e' null,
+   assert(nn.length == 1);
+   appendElementNN(nn);
+   assert(nn.length == 2);
+
 }
+
+/**
+  aa e' passato come copia, o meglio la struttura che descrive aa e' copiata in cc
+  Se aa.prt e' null anche cc.prt e' null.
+  Aggiungendo un dato a cc e' allocata memoria e cc.ptr punta a tale memoria,
+  ma **non** aa.pter che punta ancora  null.
+
+  Se invece aa.ptr non e' null, ma punta ad una area di memoria, cc.per punta alla stessa area e' quindi aggiungendo
+
+*/
+void appendElement(int[string] cc) {
+   assert(!cc.length);
+   cc["red"] = 100;
+   assert(cc.length);
+
+   writefln("Inside appendElement()       : %s", cc);
+}
+
+/*
+  Se invece aa.ptr non e' null e punta ad una area di memoria,
+  cc.per punta alla stessa area e' quindi aggiungendo a cc si aggiunge all'area condivisa dd
+*/
+void appendElementNN(int[string] cc) {
+   assert(cc.length);
+   cc["red"] = 100;
+}
+
+
