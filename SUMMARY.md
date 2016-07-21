@@ -1,0 +1,38 @@
+- `align`
+- `array_of_void`
+- `associative_array` Note sugli AA tratti da Parker e Ali Çehreli
+- `binding_string`
+- `bitarray`
+- `const_immutable`
+- `contract_and_enforce`
+- `copy_struct`
+- `datetime`
+- `direntries`
+- `dub_version`
+- `endianess`
+- `enum`
+- `function_literal`
+- `gtkd_builder`
+- `gtkd_hello`
+- `immutable_test`
+- `is_expression`
+- `literal`
+- `notimp`
+- `p2k_gtk`
+- `pointer`
+- `print_array`
+- `property_func`
+- `psql_arsd`
+- `scope`
+- `signal_and_event`
+- `site`
+- `slice` Esempi e note sugli slice tratti da Parker
+- `sqlite_arsd`
+- `static_ex`
+- `static_if_and_lib`
+- `stopwatch`
+- `string_empty`
+- `typeof_typeid`
+- `variant` Esempi di utizzo di variant
+- `virtual`
+

@@ -1,0 +1,21 @@
+{
+   "name": "snippet",
+   "version": "~master",
+   "authors": [ "ODV" ],
+   "description": "Dub example",
+   "sourcePaths": [ "." ],
+   "configurations": [
+      {
+         "name": "application",
+         "targetType": "executable",
+         "mainSourceFile": "app.d"
+      },
+      {
+         "excludedSourceFiles": [
+            "app.d"
+         ],
+         "name": "library",
+         "targetType": "library"
+      }
+   ]
+}
