@@ -13,14 +13,12 @@ void main(string[] args) {
 
    assert(*c.peek!int == 52);
 
-   /*
-      typeid ritorna la classe TypeInfo, e qi si verifica che sia uguale al TypeInfo degli interi
-    */
+   // typeid ritorna la classe TypeInfo, e qi si verifica che sia uguale al TypeInfo degli interi
    assert(b.type == typeid(int));
    writeln("b typeid: ", typeid(b));
    writeln("b type: ", b.type);
 
-   // ottenere il valore con peek
+   // Ottenere il valore con peek
    //----------------------------------------
    // peek ritorna il puntatore alla variabile
    // 42 e' un int quindi si ottien un puntatore valido
@@ -31,6 +29,8 @@ void main(string[] args) {
    assert(b.peek!string is null);
 
 
+   // Allowed: valori permessi
+   //----------------------------------------
    // allowed indica se il tipo passato puo' essere memorizzato nel variant
    assert(b.allowed!bool);
 
@@ -45,7 +45,7 @@ void main(string[] args) {
    x = 5;
    assert(x.hasValue);
 
-   // conversione
+   // Conversione
    //----------------------------------------
    // convertsTo!u ritorna true solo se il varian contine un tipo implicitamente convertibile al tipo U
    assert(b.convertsTo!int);
@@ -93,7 +93,7 @@ void main(string[] args) {
    }
 
    // long e int
-   //----------------------------------------
+   //........................................
    Variant l = 12L;
    // long NON e' convertibile in int
    assert(!l.convertsTo!int, "long to int");
@@ -110,6 +110,34 @@ void main(string[] args) {
    assert(buffer["a"].get!int == 42);
    assert(buffer["x"].get!double == 19.64);
    assert(buffer.get!double("x") == 19.64);
+
+
+   // Ottenere il tipo
+   //----------------------------------------
+   Variant t = 19.64;
+   // switch non si puo' usare perche'
+   //` t.type must be of integral or string type`
+   // switch (t.type) {
+   //    case typeid(double):
+   //       assert(true);
+   //       break;
+   //    default:
+   //       assert(false);
+   // }
+   if (t.type == typeid(double)) {
+      assert(true);
+   } else {
+      assert(false);
+   }
+
+   // Assegnazione
+   //----------------------------------------
+   // l'assegnazione diretta non si puo fare
+   Variant l0 = 42L;
+   // long longV = l0; // <- Error: cannot implicitly convert expression (l) of type VariantN!32LU to long
+   // cosi si:
+   long longV = l0.get!long;
+   assert(longV == 42L);
 }
 
 private T get(T)(Variant[string] buf, string key) {

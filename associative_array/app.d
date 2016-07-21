@@ -75,7 +75,6 @@ void main() {
    assert(nn.length == 1);
    appendElementNN(nn);
    assert(nn.length == 2);
-
 }
 
 /**
@@ -103,5 +102,3 @@ void appendElementNN(int[string] cc) {
    assert(cc.length);
    cc["red"] = 100;
 }
-
-

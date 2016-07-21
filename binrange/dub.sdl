@@ -1,0 +1,7 @@
+name "app"
+description "Binrange test"
+authors "Orfeo Da Viá"
+copyright "Copyright © 2016, Orfeo Da Viá"
+license "proprietary"
+sourcePaths "."
+dependency "binrange" version="~>1.0.2"
