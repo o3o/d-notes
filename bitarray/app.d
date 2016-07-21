@@ -46,7 +46,7 @@ void main(string[] args) {
    assert(b3.bitsSet.equal([1, 4]));
 
 
-   // convertire un intero in bitarray
+   // convertire un intero in bitarray 1
    // ----------------------
    ulong x = 5; // 101
    // questa funzione e' deliberatamente non documentata
@@ -82,13 +82,14 @@ void main(string[] args) {
 
 
    /*
-    *v ha lunghezza 8 e si puo rappresentare cosi
-    *[0x5, 0x0, 0x0, 0x0, 0x7, 0x0, 0x0, 0x0]
+    * v [0x05, 0x7] ha  8 ottetti (4 per ciascun int) e si puo rappresentare in ottetti cosi:
+    * [0x5, 0x0, 0x0, 0x0,    0x7, 0x0, 0x0, 0x0]
     */
-   v = [0x05, 0x7];
-   writefln("[%( 0x%x,%)] : len %d, sizeof %d, mod %d", v, v.length, size_t.sizeof, v.length % size_t.sizeof);
+   void[] v6 = [0x05, 0x7];
+   assert(v6.length == 8);
+   writefln("[%( 0x%x,%)] : len %d, sizeof %d, mod %d", v6, v6.length, size_t.sizeof, v6.length % size_t.sizeof);
    // uso solo 16 bit quindi [0x5 0x0]
-   b6 = BitArray(v, 16);
+   b6 = BitArray(v6, 16);
    assert(b6.bitsSet.equal([0, 2]));
 
    /* dovrebbe usare 40 bit cioe'
@@ -101,6 +102,17 @@ void main(string[] args) {
    foreach (e; b6.bitsSet) {
       writeln("\t", e);
    }
+
+   // Conversione di un ubyte
+   //----------------------------------------
+   ubyte input = 0x05;
+   void[] v10 = [input];
+   assert(v10.length == 1);
+   BitArray b10 = BitArray(v10, 8);
+   assert(b10.bitsSet.equal([0, 2]));
+   // lunghezza in bit
+   assert(b10.length == 8);
+
 
    // forach
    // ----------------------
