@@ -55,4 +55,12 @@ void main() {
    foreach (k, v; aa3) {
       writeln(k, " == ", v);
    }
+   int[string] bb = ["x": 5, "y": 6];
+   setAA(bb);
+   assert(bb["x"] == 42);
+
+}
+
+void setAA(int[string] aa) {
+   aa["x"] = 42;
 }

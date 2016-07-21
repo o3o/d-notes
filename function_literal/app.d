@@ -124,5 +124,9 @@ void parker1() {
    performTest(1, 2, (a, b) { return a == b; });
    performTest(1, 2, (a, b) => a < b);
    performTest(1, 2, function bool (int a, int b) => a < b);
+   performTest(1, 2, &extFunc);
 }
 
+bool extFunc(int x, int y) {
+   return x == y - 1;
+}
