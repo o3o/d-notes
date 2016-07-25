@@ -62,6 +62,26 @@ void main(string[] args) {
    // probabilmente conviene lavorare con ulong e convertire alla bisogna:
    ubyte three = cast(ubyte)input;
    assert(three == 3);
+   // oppure
+   three = input & 0xFF;
+   assert(typeid(three) == typeid(ubyte));
+   assert(three == 3);
+
+
+   // Test con array
+   // ----------------------------------------
+   size_t[2] array;
+   array[0] = 0x2;
+   array[1] = 0x3;
+
+   assert(bt(array.ptr, 1));
+   // sono ulong cioe 8 byte => 64 bit
+   static assert(array[0].sizeof == 8);
+   assert(bt(array.ptr, 0 + 64));
+   assert(bt(array.ptr, 1 + 64));
+
+   assert(array[0] == 2);
+   assert(array[1] == 0x3);
 }
 
 int bitTest(ubyte b, size_t bitnum) {
