@@ -1,0 +1,15 @@
+name "dub_version"
+version "~master"
+description "Test dub versions flag"
+authors "o3o"
+copyright "Copyright © 2016, o3o"
+license "proprietary"
+sourcePaths "."
+configuration "exec" {
+	targetType "executable"
+}
+
+configuration "x" {
+	targetType "executable"
+	versions "x"
+}

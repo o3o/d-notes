@@ -1,6 +1,7 @@
-# makefile release 0.2.0
-NAME = name
+# makefile release 0.3.0
+
 PROJECT_VERSION = 0.1.0
+#$(getVer)
 
 #############
 # Dirs      #
@@ -16,14 +17,20 @@ SRC = $(getSources)
 #############
 # Names     #
 #############
-BASE_NAME = $(basename $(NAME))
+SDL_FILE = dub.sdl
+ifneq ("$(wildcard $(SDL_FILE))","")
+NAME = $(getNameSdl)
+else
+NAME = $(getNameJson)
+SDL_FILE = dub.json
+endif
 
 #############
 # Packages  #
 #############
-ZIP = $(BIN)/$(NAME)
-ZIP_SRC = $(ZIP) $(SRC) dub.json README.md CHANGELOG.md makefile $(SRC_TEST)
-ZIP_PREFIX = $(BASE_NAME)-$(PROJECT_VERSION)
+ZIP = name
+ZIP_SRC = $(ZIP) $(SRC) $(SDL_FILE) README.md CHANGELOG.md makefile $(SRC_TEST)
+ZIP_PREFIX = $(NAME)-$(PROJECT_VERSION)
 
 #############
 # Test      #
@@ -32,6 +39,10 @@ TEST_SOURCE_DIR = tests
 SRC_TEST += $(shell find $(TEST_SOURCE_DIR) -name "*.d")
 
 getSources = $(shell find $(ROOT_SOURCE_DIR) -name "*.d")
+getVer = $(shell ag -o --nofilename '\d+\.\d+\.\d+' $(ROOT_SOURCE_DIR)/$(NAME)/semver.d)
+#http://stackoverflow.com/questions/1546711/can-grep-show-only-words-that-match-search-pattern#1546735
+getNameSdl = $(shell ag -o  'name\s+\"\K[[:alpha:]]+' dub.sdl)
+getNameJson = $(shell ag -o -m1 '\"name\":\s+\"\K[[:alpha:]]+' dub.json)
 
 #############
 # Commands  #
@@ -48,9 +59,10 @@ UPX = upx --no-progress
 # per impostatare la configurazione conf
 # make c=conf
 CONFIG += $(if $(c), -c$(c))
-DUBFLAGS = -q --combined $(CONFIG)
+BUILD += $(if $(b), -b$(b))
+DUBFLAGS = -q --combined $(CONFIG) $(BUILD)
 
-.PHONY: all release force run test pkgall pkg pkgtar pkgsrc tags style syn loc clean clobber
+.PHONY: all release force run run-rel test btest upx pkgall pkg pkgtar pkgsrc tags style syn loc clean clobber ver var help
 
 DEFAULT: all
 
@@ -64,14 +76,18 @@ force:
 	$(DUB) build --force $(DUBFLAGS)  
 
 run:
-	@$(DUB) run $(DUBFLAGS)  
+	$(DUB) run $(DUBFLAGS)  
+
 run-rel:
 	$(DUB) run -brelease $(DUBFLAGS)  
+
 test: 
 	$(DUB) test 
 
+btest: 
+	$(DUB) build -cunittest -q 
 upx: $(BIN)/$(NAME)
-	$(UPX) $@
+	$(UPX) $^
 
 pkgdir:
 	$(MKDIR) pkg
@@ -120,7 +136,6 @@ ver:
 var:
 	@echo NAME:       $(NAME)
 	@echo PRJ_VER:    $(PROJECT_VERSION)
-	@echo BASE_NAME:  $(BASE_NAME)
 	@echo DUBFLAGS:   $(DUBFLAGS)
 	@echo
 	@echo ==== dir ===
@@ -143,17 +158,19 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... release Compiles in release mode"
 	@echo "... force  Forces a recompilation"
-	@echo "... test Executes the tests"
 	@echo "... run Builds and runs"
-	@echo "... clean Removes intermediate build files"
-	@echo "... clobber"
+	@echo "... test Build and executes the tests"
+	@echo "... btest Build the tests"
+	@echo "... upx Compress using upx"
+	@echo "... pkgall Executes pkg, pkgtar, pkgsrc"
 	@echo "... pkg Zip binary"
 	@echo "... pkgtar Tar binary"
 	@echo "... pkgsrc Tar source"
-	@echo "... pkgall Executes pkg, pkgtar, pkgsrc"
 	@echo "... tags Generates tag file"
 	@echo "... style Checks programming style"
 	@echo "... syn Syntax check"
-	@echo "... upx Compress using upx"
 	@echo "... loc Counts lines of code"
+	@echo "... clean Removes intermediate build files"
+	@echo "... clobber"
+	@echo "... ver Prints version"
 	@echo "... var Lists all variables"
