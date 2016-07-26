@@ -1,5 +1,6 @@
 import std.stdio;
 import binrange;
+import std.array: appender;
 
 /*
  * Il compito e' convertire un array di ubyte in array di double
@@ -47,6 +48,23 @@ void main() {
    assert(r[1] == -18.7);
    assert(r[2] == .5);
    writefln("double array [%(%f, %)]", r);
+
+
+   // Creazione di un array di ubyte da un float
+   //----------------------------------------
+   ubyte[] arr2;
+   auto app = appender(arr2);
+   writeBE!float(app, 80.0f);
+
+   writefln("appender BE array [%(0x%x, %)]", app.data);
+
+   ubyte[] arr3;
+   auto app3 = appender(arr3);
+   writeLE!float(app3, 80.0f);
+   writefln("appender LE array [%(0x%x, %)]", app3.data);
+   for (size_t i = 0; i < 4; ++i) {
+      writefln("%d: %x", i, app3.data[i]);
+   }
 }
 
 union double_ubyte {

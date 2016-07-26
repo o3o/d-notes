@@ -141,7 +141,63 @@ void main(string[] args) {
    // cosi si:
    long longV = l0.get!long;
    assert(longV == 42L);
+
+
+   // Uso in alyx
+   //----------------------------------------
+   Parm[string] bufferFoo;
+   bufferFoo["foo"] = 19.64;
+
+   Parm foo = bufferFoo["foo"];
+   // i due oggetti sono uguali
+   assert(bufferFoo["foo"] == foo);
+   // cambiando valore...
+   foo = 52.;
+   //... l'oggetto originale NON cambia!
+   assert(foo.get!double != bufferFoo["foo"].get!double);
+
+   foo = Parm(53.);
+   assert(foo.get!double != bufferFoo["foo"].get!double);
+
+
+   // Stesso problema usando `in`
+   auto ptr = "foo" in bufferFoo;
+   writeln("Typeid ptr: ", typeid(ptr));
+   Parm bar = *ptr;
+   // l'oggetto e' uguale
+   assert(bufferFoo["foo"] == bar);
+   // ..ma non e' uguale alla copia
+   assert(foo != bar);
+
+   // ma cambiando il valore...
+   bar = 42.;
+   //... l'oggetto originale NON cambia!
+   assert(bufferFoo["foo"].get!double == 19.64);
+   assert(bar.get!double == 42.);
+
+   // se modifico direttamente il puntatore
+   *ptr = 2007.;
+   // allora il valore originale cambia
+   assert(bufferFoo["foo"].get!double == 2007.);
+   // mentre la copia resta invariata
+   assert(bar.get!double == 42.);
+
+   // i puntatotori infatti sono diversi...
+   writefln("&bufferFoo %s", &(bufferFoo["foo"]));
+   writefln("&foo       %s ", &foo);
+   writefln("&bar       %s", &bar);
+
+   // proviamo con peek
+   assert(bufferFoo["foo"].get!double == 2007.);
+   auto foopeek = bufferFoo["foo"].peek!(double);
+   writeln("Typeid foopeek: ", typeid(foopeek));
+
+   assert(foopeek !is null);
+   *foopeek = 64.;
+   assert(bufferFoo["foo"] == 64.);
 }
+
+alias Parm = Algebraic!(bool, int, double, string);
 
 private T get(T)(Variant[string] buf, string key) {
    return buf[key].get!T;

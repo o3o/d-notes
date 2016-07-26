@@ -9,3 +9,4 @@ const_immutable/app
 copy_struct/copy_struct
 endianess/app
 */app
+dub_version/dub_version
