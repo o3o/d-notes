@@ -159,6 +159,7 @@ void main(string[] args) {
 
    // Stesso problema usando `in`
    auto ptr = "foo" in bufferFoo;
+   writeln("Typeid ptr: ", typeid(ptr));
    Parm bar = *ptr;
    // l'oggetto e' uguale
    assert(bufferFoo["foo"] == bar);
@@ -171,10 +172,26 @@ void main(string[] args) {
    assert(bufferFoo["foo"].get!double == 19.64);
    assert(bar.get!double == 42.);
 
+   // se modifico direttamente il puntatore
+   *ptr = 2007.;
+   // allora il valore originale cambia
+   assert(bufferFoo["foo"].get!double == 2007.);
+   // mentre la copia resta invariata
+   assert(bar.get!double == 42.);
+
    // i puntatotori infatti sono diversi...
    writefln("&bufferFoo %s", &(bufferFoo["foo"]));
    writefln("&foo       %s ", &foo);
    writefln("&bar       %s", &bar);
+
+   // proviamo con peek
+   assert(bufferFoo["foo"].get!double == 2007.);
+   auto foopeek = bufferFoo["foo"].peek!(double);
+   writeln("Typeid foopeek: ", typeid(foopeek));
+
+   assert(foopeek !is null);
+   *foopeek = 64.;
+   assert(bufferFoo["foo"] == 64.);
 }
 
 alias Parm = Algebraic!(bool, int, double, string);
