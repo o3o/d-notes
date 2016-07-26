@@ -5,8 +5,8 @@ void main(string[] args) {
    StopWatch sw;
    // Avvio
    //----------------------------------------
-   // avviare piu' volte non genera problemi.
-   // in realta' nel codice di phobos c'e' un assert che verifica se start e' chiamato piu'
+   // Avviare piu' volte non genera problemi.
+   // In realta' nel codice di phobos c'e' un assert che verifica se start e' chiamato piu'
    // volte, ma prob. phobos e' compilato coem release e l'assert eliminato
 
    sw.start();
@@ -20,13 +20,24 @@ void main(string[] args) {
    assert(t2 == t3);
 
    writefln("%s sec, %s msec %s", t1.seconds, t1.msecs, typeid(t1.seconds));
+
+   // Leggere il tempo
+   //----------------------------------------
    // Peek ritorna TickDuration che ha le funzioni seconds e msecs che ritornano long
-   long sec = sw.peek.seconds;
-   long msecs = sw.peek.msecs;
-   int max = 3;
-   // long si puo' confrontare con int
-   if (sec > max) {
+   StopWatch wait;
+   writeln("before start: ", wait.peek.msecs);
+   writeln("clock: ", Clock.currTime);
+
+   wait.start();
+   int max = 1;
+   while (wait.peek.seconds < max) {
+      //writeln(wait.peek.seconds);
    }
+   wait.stop();
+   writeln("clock: ", Clock.currTime);
+   writeln("after stop: ", wait.peek.msecs);
+   wait.reset();
+   writeln("after reset: ", wait.peek.msecs);
 
 
    // Reset
