@@ -35,7 +35,7 @@ ZIP_PREFIX = $(NAME)-$(PROJECT_VERSION)
 #############
 # Test      #
 #############
-TEST_SOURCE_DIR = tests
+TEST_SOURCE_DIR = 
 SRC_TEST += $(shell find $(TEST_SOURCE_DIR) -name "*.d")
 
 getSources = $(shell find $(ROOT_SOURCE_DIR) -name "*.d")
@@ -62,7 +62,7 @@ CONFIG += $(if $(c), -c$(c))
 BUILD += $(if $(b), -b$(b))
 DUBFLAGS = -q --combined $(CONFIG) $(BUILD)
 
-.PHONY: all release force run run-rel test btest upx pkgall pkg pkgtar pkgsrc tags style syn loc clean clobber ver var help
+.PHONY: all release force run run-rel test btest upx pkgall pkg pkgtar pkgsrc tags style syn loc clean clobber pb pc pp ver var help
 
 DEFAULT: all
 
@@ -86,6 +86,7 @@ test:
 
 btest: 
 	$(DUB) build -cunittest -q 
+
 upx: $(BIN)/$(NAME)
 	$(UPX) $^
 
@@ -129,6 +130,12 @@ clobber: clean
 	$(RM) $(BIN)/*.log
 	$(RM) $(BIN)/test-runner
 
+pb:
+	@$(DUB) build  --print-builds
+pc:
+	$(DUB) build  --print-configs
+pp:
+	$(DUB) build  --print-platform
 
 ver:
 	@echo $(PROJECT_VERSION)
@@ -155,6 +162,8 @@ var:
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
+	@echo "Compile"
+	@echo "...................."
 	@echo "... all (the default if no target is provided)"
 	@echo "... release Compiles in release mode"
 	@echo "... force  Forces a recompilation"
@@ -162,15 +171,27 @@ help:
 	@echo "... test Build and executes the tests"
 	@echo "... btest Build the tests"
 	@echo "... upx Compress using upx"
+	@echo ""
+	@echo "Pack"
+	@echo "...................."
 	@echo "... pkgall Executes pkg, pkgtar, pkgsrc"
 	@echo "... pkg Zip binary"
 	@echo "... pkgtar Tar binary"
 	@echo "... pkgsrc Tar source"
+	@echo ""
+	@echo "Utility"
+	@echo "...................."
 	@echo "... tags Generates tag file"
 	@echo "... style Checks programming style"
 	@echo "... syn Syntax check"
 	@echo "... loc Counts lines of code"
 	@echo "... clean Removes intermediate build files"
 	@echo "... clobber"
+	@echo ""
+	@echo "Print"
+	@echo "...................."
+	@echo "... pb Prints the list of available build types"
+	@echo "... pc Prints the list of available configurations"
+	@echo "... pp Prints the identifiers for the current build platform as used for the build fields"
 	@echo "... ver Prints version"
 	@echo "... var Lists all variables"

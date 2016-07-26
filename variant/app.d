@@ -6,24 +6,25 @@ import std.conv;
 void main(string[] args) {
    //Costruttori
    //----------------------------------------
-   //Variant deve essere assegnato prima dell'uso
+   // Variant deve essere assegnato prima dell'uso
    Variant a;
    Variant b = 42;
    Variant c = Variant(52);
 
    assert(*c.peek!int == 52);
 
-   // typeid ritorna la classe TypeInfo, e qi si verifica che sia uguale al TypeInfo degli interi
+   // Ottenere il tipo
+   //----------------------------------------
+   // typeid ritorna la classe TypeInfo, e qui si verifica che sia uguale al TypeInfo degli interi
    assert(b.type == typeid(int));
-   writeln("b typeid: ", typeid(b));
-   writeln("b type: ", b.type);
+   assert(typeid(b) == typeid(Variant));
 
    // Ottenere il valore con peek
    //----------------------------------------
    // peek ritorna il puntatore alla variabile
-   // 42 e' un int quindi si ottien un puntatore valido
+   // 42 e' un int quindi si ottiene un puntatore valido
    assert(b.peek!int);
-   // 42 non puo' essere convertiot in stringa e si ottien un puntaore null
+   // 42 non puo' essere convertito in stringa e si ottien un puntatore null
    assert(!b.peek!string);
    // come sopra con sintassi diversa
    assert(b.peek!string is null);
@@ -38,12 +39,41 @@ void main(string[] args) {
    //----------------------------------------
    Variant x;
    assert(!x.hasValue);
+
    Variant y;
    x = y;
    assert(!x.hasValue); // still no value
 
    x = 5;
    assert(x.hasValue);
+
+   // Assegnazione fra variant
+   //----------------------------------------
+   Variant lh = 42;
+   assert(lh.hasValue);
+   Variant rh = lh;
+   // ha quento punto sia rh che lh hanno valore e il valore e' uguale
+
+   assert(rh.hasValue);
+   assert(lh.get!int == 42);
+   assert(rh.get!int == 42);
+   // ma puntano ad aree diverse!
+   assert(&rh != &lh);
+
+   // modifico lh
+   lh = 43;
+   assert(lh.get!int == 43);
+   // rh NON cambia perche' e' una copia
+   assert(rh.get!int == 42);
+
+   // modifico lh tramite peek
+   *(lh.peek!int) = 64;
+   assert(lh.get!int == 64);
+   // ma lh e rh puntano a interi diversi
+   assert(lh.peek!int != rh.peek!int);
+   // infatti rh non cambia
+   assert(rh.get!int == 42);
+
 
    // Conversione
    //----------------------------------------
@@ -79,26 +109,34 @@ void main(string[] args) {
 
    // questo si:
    assert(a.coerce!int == 3);
+
    // con bool nemmeno la coercizione funziona
    //assert(a.coerce!bool);
+
+   int ex = 0;
    try {
-      writeln("try get!int");
       a.get!int();
    } catch (VariantException e) {
-      writeln("variant Exception");
+      ++ex;
    } catch (Exception e) {
-      writeln("generic Exception");
+      // non e' chiamato
+      assert(false);
    } finally {
-      writeln("finally");
+      // questo si
+      ++ex;
    }
+   assert(ex == 2);
 
    // long e int
    //........................................
    Variant l = 12L;
    // long NON e' convertibile in int
    assert(!l.convertsTo!int, "long to int");
+   // ma si puo' costringere a int
+   assert(l.coerce!int == 12);
+
    Variant i = 10;
-   // si possono pero fare confronti
+   // si possono pero' fare confronti
    assert (i.get!int < l.get!long);
 
    // Uso con AA
@@ -112,7 +150,6 @@ void main(string[] args) {
    assert(buffer.get!double("x") == 19.64);
    Variant* va = "x" in buffer;
    assert((*va).get!double == 19.64);
-
 
 
    // Ottenere il tipo
@@ -133,68 +170,81 @@ void main(string[] args) {
       assert(false);
    }
 
-   // Assegnazione
+   // Assegnazione ad un tipo semplice
    //----------------------------------------
-   // l'assegnazione diretta non si puo fare
+   // Dato il variant:
    Variant l0 = 42L;
+   // l'assegnazione diretta ad un long non si puo fare:
    // long longV = l0; // <- Error: cannot implicitly convert expression (l) of type VariantN!32LU to long
    // cosi si:
    long longV = l0.get!long;
    assert(longV == 42L);
 
-
    // Uso in alyx
    //----------------------------------------
-   Parm[string] bufferFoo;
-   bufferFoo["foo"] = 19.64;
+   // In alix pensavo che modificando la copia, si modificasse anche l'originale:
+   // in realta' e' ovvio che non accada perche' i variant sono strutture quindi assegnadole
+   // NON si assegna il puntatore ome per le classi.
+   Parm[string] params;
+   params["originale"] = 19.64;
 
-   Parm foo = bufferFoo["foo"];
+   Parm copia = params["originale"];
+   assert(copia.hasValue);
+
    // i due oggetti sono uguali
-   assert(bufferFoo["foo"] == foo);
-   // cambiando valore...
-   foo = 52.;
+   assert(params["originale"] == copia);
+   // ma non gli indirizzi
+   assert(&params["originale"] != &copia);
+   // infatti cambiando valore...
+   copia = 52.;
    //... l'oggetto originale NON cambia!
-   assert(foo.get!double != bufferFoo["foo"].get!double);
-
-   foo = Parm(53.);
-   assert(foo.get!double != bufferFoo["foo"].get!double);
-
+   assert(copia.get!double != params["originale"].get!double);
+   // ripristino
+   copia = 19.64;
+   assert(params["originale"] == copia);
 
    // Stesso problema usando `in`
-   auto ptr = "foo" in bufferFoo;
-   writeln("Typeid ptr: ", typeid(ptr));
-   Parm bar = *ptr;
-   // l'oggetto e' uguale
-   assert(bufferFoo["foo"] == bar);
-   // ..ma non e' uguale alla copia
-   assert(foo != bar);
+   Parm* ptr = "originale" in params;
+   assert(typeid(ptr) == typeid(Parm*));
 
-   // ma cambiando il valore...
-   bar = 42.;
+   // ricopia e' una stuttura con gli stessi dati del puntato, ma in area di mem. diversa
+   Parm ricopia = *ptr;
+   // infatti l'oggetto e' uguale
+   assert(params["originale"] == ricopia);
+   assert(ricopia == copia);
+
+   // cambiando il valore...
+   ricopia = 42.;
    //... l'oggetto originale NON cambia!
-   assert(bufferFoo["foo"].get!double == 19.64);
-   assert(bar.get!double == 42.);
+   assert(params["originale"].get!double == 19.64);
+   assert(ricopia.get!double == 42.);
+   assert(params["originale"] != ricopia);
 
    // se modifico direttamente il puntatore
    *ptr = 2007.;
    // allora il valore originale cambia
-   assert(bufferFoo["foo"].get!double == 2007.);
+   assert(params["originale"].get!double == 2007.);
    // mentre la copia resta invariata
-   assert(bar.get!double == 42.);
+   assert(ricopia.get!double == 42.);
 
-   // i puntatotori infatti sono diversi...
-   writefln("&bufferFoo %s", &(bufferFoo["foo"]));
-   writefln("&foo       %s ", &foo);
-   writefln("&bar       %s", &bar);
+   // i puntatori infatti sono diversi...
+   assert(&params["originale"] != &copia);
+   assert(&copia != &ricopia);
+   writefln("&params   %s", &(params["originale"]));
+   writefln("&copia    %s ", &copia);
+   writefln("&ricopia  %s", &ricopia);
 
    // proviamo con peek
-   assert(bufferFoo["foo"].get!double == 2007.);
-   auto foopeek = bufferFoo["foo"].peek!(double);
-   writeln("Typeid foopeek: ", typeid(foopeek));
+   assert(params["originale"].get!double == 2007.);
+   double* valueptr = params["originale"].peek!(double);
 
-   assert(foopeek !is null);
-   *foopeek = 64.;
-   assert(bufferFoo["foo"] == 64.);
+   // valueptr ora punta al double contenuto in originale
+   assert(valueptr !is null);
+   // cambiandone il valore...
+   *valueptr = 64.;
+
+   // cambia anche l'originale
+   assert(params["originale"] == 64.);
 }
 
 alias Parm = Algebraic!(bool, int, double, string);

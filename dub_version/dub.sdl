@@ -13,3 +13,14 @@ configuration "x" {
 	targetType "executable"
 	versions "x"
 }
+
+/*
+Si possono specificare piu' versioni in questo modo:
+	versions "x" "y"
+Per compilare
+dub build -cxy
+*/
+configuration "xy" {
+	targetType "executable"
+	versions "x" "y"
+}

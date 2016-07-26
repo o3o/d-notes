@@ -1,0 +1,7 @@
+name "peg_test"
+description "A minimal D application."
+authors "o3o"
+copyright "Copyright © 2016, o3o"
+license "proprietary"
+sourcePaths "."
+dependency "pegged" version="~>0.3.2"
