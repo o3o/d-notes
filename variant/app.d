@@ -110,6 +110,9 @@ void main(string[] args) {
    assert(buffer["a"].get!int == 42);
    assert(buffer["x"].get!double == 19.64);
    assert(buffer.get!double("x") == 19.64);
+   Variant* va = "x" in buffer;
+   assert((*va).get!double == 19.64);
+
 
 
    // Ottenere il tipo
