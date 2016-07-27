@@ -12,7 +12,6 @@ void main() {
 
    // Aggiungere
    // --------------
-
    // se esiste e' sovrascritto...
    aa2["x"] = 7;
    // .. se no aggiunto
@@ -33,23 +32,29 @@ void main() {
    // Leggere
    // --------------
    // modo 1
-   writeln(aa2["x"]); // funziona
+   int err = 0;
+   assert(aa2["x"] == 7); // funziona
    try {
-      writeln(aa2["xx"]); // genera errore
+      int dummy = aa2["xx"]; // genera errore e salta a catch
+      assert(false);
    } catch (Error e) {
-      writeln("errore xx");
+      ++err;
    }
+   assert(err == 1);
 
    // modo 2
    if (int* ptr = "x" in aa2) {
-      writeln(*ptr);
+      assert(*ptr == 7);
+   } else {
+      assert(false);
    }
 
    if (auto ptr = "yy" in aa2) {
-      writeln(*ptr);
+      assert(false);
    } else {
-      writeln("errore yy");
+      ++err;
    }
+   assert(err == 2);
 
    string[string] aa3 = ["a": "10", "b": "11"];
    foreach (k, v; aa3) {
@@ -86,7 +91,7 @@ void main() {
   ma **non** aa.ptr che punta ancora  null.
 
   Se invece aa.ptr non e' null, ma punta ad una area di memoria, cc.per punta alla stessa area e quindi aggiungendo a cc, si aggiunge anche ad aa
-*/
+ */
 void appendElement(int[string] cc) {
    assert(!cc.length);
    cc["red"] = 100;
@@ -96,9 +101,9 @@ void appendElement(int[string] cc) {
 }
 
 /*
-  Se invece aa.ptr non e' null e punta ad una area di memoria,
-  cc.per punta alla stessa area e' quindi aggiungendo a cc si aggiunge all'area condivisa
-*/
+   Se invece aa.ptr non e' null e punta ad una area di memoria,
+   cc.per punta alla stessa area e' quindi aggiungendo a cc si aggiunge all'area condivisa
+ */
 void appendElementNN(int[string] cc) {
    assert(cc.length);
    cc["red"] = 100;

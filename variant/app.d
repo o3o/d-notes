@@ -24,7 +24,7 @@ void main(string[] args) {
    // peek ritorna il puntatore alla variabile
    // 42 e' un int quindi si ottiene un puntatore valido
    assert(b.peek!int);
-   // 42 non puo' essere convertito in stringa e si ottien un puntatore null
+   // 42 non puo' essere convertito in stringa e si ottiene un puntatore null
    assert(!b.peek!string);
    // come sopra con sintassi diversa
    assert(b.peek!string is null);
@@ -77,22 +77,24 @@ void main(string[] args) {
 
    // Conversione
    //----------------------------------------
-   // convertsTo!u ritorna true solo se il varian contine un tipo implicitamente convertibile al tipo U
-   assert(b.convertsTo!int);
-   assert(b.convertsTo!double);
-   assert(!b.convertsTo!string);
+   // convertsTo!u ritorna true solo se il variant contine un tipo implicitamente convertibile al tipo U
+   Variant intero = 42;
+   assert(intero.convertsTo!int);
+   assert(intero.convertsTo!double);
+   assert(!intero.convertsTo!string);
+   assert(!intero.convertsTo!bool);
 
-   a = 3.14;
+   Variant doppio = 3.14;
    // un double non e' implicitamente convertibile in int
-   assert(!a.convertsTo!int);
-   assert(a.convertsTo!double);
-   assert(!a.convertsTo!string);
+   assert(!doppio.convertsTo!int);
+   assert(doppio.convertsTo!double);
+   assert(!doppio.convertsTo!string);
+   assert(!doppio.convertsTo!bool);
 
    // e' analogo a
-   assert(!a.peek!int);
-   assert(a.peek!double);
-   assert(!a.peek!string);
-
+   assert(!doppio.peek!int);
+   assert(doppio.peek!double);
+   assert(!doppio.peek!string);
 
    // Ottenere il valore
    //----------------------------------------
