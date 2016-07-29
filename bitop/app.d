@@ -17,6 +17,17 @@ void main(string[] args) {
    assert(bt(&input, 2));
    assert(bt(&input, 2) == 1); // equivalente
 
+   ubyte effe = 0x0F;
+   ulong finput = effe;
+   assert(bt(&finput, 0)); // bit 0
+   assert(bt(&finput, 1));
+   assert(bt(&finput, 2));
+   assert(bt(&finput, 3));
+   assert(!bt(&finput, 4));
+   assert(!bt(&finput, 5));
+   assert(!bt(&finput, 6));
+   assert(!bt(&finput, 6));
+
    // cosi non si puo' fare perche'
    //`cast(ulong)d is not an lvalue`:
    //assert(bt(&(cast(size_t)d), 0));

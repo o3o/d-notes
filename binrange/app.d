@@ -52,19 +52,28 @@ void main() {
 
    // Creazione di un array di ubyte da un float
    //----------------------------------------
+   ubyte[] arr0;
+   auto app0 = appender(arr0);
+   writeBE!float(app0, 80.0f);
+
+   writefln("appender BE array [%(0x%x, %)]", app0.data);
+
+   ubyte[] arr1;
+   auto app1 = appender(arr1);
+   writeLE!float(app1, 80.0f);
+   writefln("appender LE array [%(0x%x, %)]", app1.data);
+   assert(app1.data[0] == 0x0);
+   assert(app1.data[1] == 0x0);
+   assert(app1.data[2] == 0xA0);
+   assert(app1.data[3] == 0x42);
+
+   // Creazione di un array di ubyte da un int16
+   //----------------------------------------
    ubyte[] arr2;
-   auto app = appender(arr2);
-   writeBE!float(app, 80.0f);
-
-   writefln("appender BE array [%(0x%x, %)]", app.data);
-
-   ubyte[] arr3;
-   auto app3 = appender(arr3);
-   writeLE!float(app3, 80.0f);
-   writefln("appender LE array [%(0x%x, %)]", app3.data);
-   for (size_t i = 0; i < 4; ++i) {
-      writefln("%d: %x", i, app3.data[i]);
-   }
+   auto app2 = appender(arr2);
+   writeLE!ushort(app2, 0x0126);
+   assert(app2.data[0] == 0x26);
+   assert(app2.data[1] == 0x01);
 }
 
 union double_ubyte {
