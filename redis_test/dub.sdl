@@ -1,0 +1,6 @@
+name "redis_test"
+description "A minimal D application."
+dependency "vibe-d" version=">=0.7.30-alpha.4 <0.8.0"
+//dependency "vibe-d" version="~>0.7.30-alpha.1"
+copyright "Copyright © 2016, dao"
+authors "dao"
