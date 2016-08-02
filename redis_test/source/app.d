@@ -14,4 +14,31 @@ void main() {
    foreach (e; reply) {
       writeln(e);
    }
+
+   RedisLogger logger = new RedisLogger(db);
+   writefln("len logger %s", logger.len());
+   writefln("len logger %s", logger.length);
 }
+
+
+class RedisLogger {
+   private RedisDatabase db;
+   this(RedisDatabase db) {
+      this.db = db;
+   }
+   long len() {
+      return db.llen("chart0");
+   }
+
+   long length() {
+      writefln("try to llen");
+      long ll = 0;
+      try {
+         ll = db.llen("");
+      } catch (Exception e) {
+         writefln(e.msg);
+      }
+      return ll;
+   }
+}
+
