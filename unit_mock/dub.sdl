@@ -17,5 +17,5 @@ configuration "unittest" {
    // serve per generare i tests
    preBuildCommands "dub run unit-threaded -c gen_ut_main -- -f tests/app.d"
 
-   dependency "unit-threaded" version="~>0.6.24"
+   dependency "unit-threaded" version="~>0.6.25"
 }
