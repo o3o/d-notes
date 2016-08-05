@@ -1,0 +1,6 @@
+name "json_array"
+description "A minimal D application."
+authors "o3o"
+copyright "Copyright © 2016, o3o"
+license "proprietary"
+dependency "vibe-d:data" version="~>0.7.30-alpha.4"
