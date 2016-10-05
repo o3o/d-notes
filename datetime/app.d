@@ -8,13 +8,22 @@ void main() {
    SysTime now = Clock.currTime;
    writeln("With SysTime");
    writeln("----------");
-
-
    writeln("now.toUTC         : ", now.toUTC);
    writeln("now.toISOString   : ", now.toISOString);
    writeln("now.toSimpleString: ", now.toSimpleString);
    writeln("now.toString      : ", now.toString);
    writeln("now.toUnixTime    :", now.toUnixTime);
+
+   auto y1 = DateTime(1970, 1, 1, 1, 2, 5); // 3_725 sec  3_725_000
+   SysTime s0 = SysTime(DateTime(1970, 1, 1, 0, 0, 0));
+   SysTime s1 = SysTime(y1);
+
+   // 37_250_000_000 hn
+   long hn = (s1.stdTime - s0.stdTime);
+   writefln("%d hn, %f us %f ms",  hn, hn * 1E-1, hn * 1E-4);
+
+
+
 
    DateTime n = DateTime(1999, 7, 6, 9, 7, 5);
    string yy = "%d-%d-%d:%d".format(n.year, n.month, n.day, n.hour);
