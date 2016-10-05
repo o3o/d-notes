@@ -2,7 +2,9 @@ import std.stdio;
 import std.array;
 
 void main() {
-   // String vuoata
+   // vedi  http://stackoverflow.com/documentation/d/5760/strings/24157/test-for-an-empty-or-null-string
+
+   // String vuota
    //----------------------------------------
    string emptyString = "";
    // una  stringa vuota non e' null
@@ -14,14 +16,14 @@ void main() {
    // necessario std.array
    assert(emptyString.empty);
 
-   writeln();
-   writeln("==== null =====");
+   // String nulla
+   //----------------------------------------
    string nullString = null;
-   assert(nullString is null);
-   assert(nullString.length == 0);
-   assert(nullString.empty);
 
-   writeln("is null?", nullString is null);
-   writeln("length == 0?", nullString.length == 0);
-   writeln("empty?", nullString.empty);
+   // string anulla e' null
+   assert(nullString is null);
+   // ha lunghezza zero
+   assert(nullString.length == 0);
+   // ed e' empty
+   assert(nullString.empty);
 }
