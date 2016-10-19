@@ -50,16 +50,16 @@ void main(string[] args) {
    // Gli array dinamici sono slices e le slices sono array dinamici
    auto tenArray = [5,10,15,20,25,30,35,40,45,50];
    auto sliced = tenArray[0 .. 5];
+
    // Quando una slice inizia a vivere, non e' allocata nessuna memoria,..
    assert(sliced.capacity == 0);
-   // il pointer dell slice e' quello dell'array
-   writeln(sliced.ptr, " ", tenArray.ptr);
+   // il pointer della slice e' quello dell'array
    assert(sliced.ptr == tenArray.ptr);
 
    // pag 54:
-   // supponiamo pero' di aggiungere un elemento a sliced: siccome la capacita' iniziale e' 0, aggiungendo elementi
-   // si rischia di sovrascrivere gli elementi esistenti in memoria, cioè quelli appartenenti all'array originale .
-   // al fine di evitare qualsiasi potenziale sovrascrittura, l'accodare interrompera' il colegamento tra i due array.
+   // Supponiamo pero' di aggiungere un elemento a sliced: siccome la capacita' iniziale e' 0, aggiungendo elementi
+   // si rischia di sovrascrivere gli elementi esistenti in memoria, cioè quelli appartenenti all'array originale.
+   // Al fine di evitare qualsiasi potenziale sovrascrittura, l'accodare interrompera' il collegamento tra i due array.
    // Si alloca quindi un nuovo blocco di memoria (abbastanza grande da contenere gli elementi esistenti più un quello aggiunto), e si copiano tutti gli elementi di tenArray
    // Infatti
    sliced ~= 20;
@@ -70,12 +70,17 @@ void main(string[] args) {
    // Passaggio di array a funzioni
    //----------------------------------------
    // pag 72
-   // Un array  e' concettualemente una lunghezza e un puntatore (struttura come sopra)
-
-   // Mentre una slicepuò condividere la memoria con il suo array di origine (tenArray), la sua lunghezza e puntatore sono completamente indipendenti.
+   // Un array e' concettualmente una struttura con lunghezza e un puntatore (struttura come sopra).
+   // Mentre una slice può condividere la memoria con il suo array di origine (tenArray), la sua lunghezza e puntatore sono completamente indipendenti.
    // Come tale, una slice e' passato per valore a una funzione.
+   // +-----+
+   // |     |<-------+---------| tenArray |
+   // +-----+        |
+   // |     |        +---------| slice    |
+   // +-----+
 
    append(tenArray, 52);
+   // il dato non e' aggiunto all'array
    assert(tenArray.length == 10);
 
    assert(tenArray[0] == 5);
@@ -87,10 +92,10 @@ void main(string[] args) {
    //----------------------------------------
    // Gli slice sono definiti tramite `numeric range`  che corrispondono agli indici che specificano l'inizio e la fine dell'intervallo
    int[] src = [0, 1, 2, 3, 4];
-   assert(src[$ - 1] == 4);
 
-   int[] s0 = src[1 .. 3]; // 1 e 2 inclusi, ma non 3
-   // [1, 2]
+   assert(src[$ - 1] == 4); // ultimo elemento
+   int[] s0 = src[1 .. 3]; // 1 e 2 inclusi, ma non 3 => [1, 2]
+
    assert(s0.length == 2);
    assert(s0[0] == 1);
    assert(s0[1] == 2);
@@ -111,7 +116,6 @@ void main(string[] args) {
 
    // Uso di take
    //----------------------------------------
-
    import std.range : take;
    import std.algorithm : equal;
 
@@ -138,7 +142,7 @@ void append(int[] arr, int val) {
 /**
   Anche in questo caso arr e' una copia di tenArray, (cioe' della struttura sopra)
   e quindi prt punta alla stessa area di memoria.
-  Modificando la memoria condivisa si modifica ance tenArray
+  Modificando la memoria condivisa si modifica anche tenArray
  */
 void update(int[] arr, int val) {
    arr[0] = val;
