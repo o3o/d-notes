@@ -87,6 +87,8 @@ void main(string[] args) {
    //----------------------------------------
    // Gli slice sono definiti tramite `numeric range`  che corrispondono agli indici che specificano l'inizio e la fine dell'intervallo
    int[] src = [0, 1, 2, 3, 4];
+   assert(src[$ - 1] == 4);
+
    int[] s0 = src[1 .. 3]; // 1 e 2 inclusi, ma non 3
    // [1, 2]
    assert(s0.length == 2);
