@@ -69,9 +69,15 @@ void main(string[] args) {
    assert("%06.3f".format(3.14) == "03.140");
    assert("%#6.3f".format(3.14) == " 3.140");
 
+   // FormatChar
+   // -----------
+   // se il dato e' floating point allora e' usato  %g
+   assert("%#6.3s".format(3.14) == "  3.14");
+   assert("%#6.3g".format(3.14) == "  3.14");
 
-   // esadecimale
 
+   // Esadecimale
+   // -----------
    //Flags:empty Width:empty Precision:empty FormatChar:x
    assert("%x".format(10) == "a");
    assert("%X".format(10) == "A");
