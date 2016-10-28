@@ -12,7 +12,8 @@ void main() {
    writeln("now.toISOString   : ", now.toISOString);
    writeln("now.toSimpleString: ", now.toSimpleString);
    writeln("now.toString      : ", now.toString);
-   writeln("now.toUnixTime    :", now.toUnixTime);
+   writeln("now.toUnixTime    : ", now.toUnixTime);
+   writefln("now in format    : %.0s", now);
 
    auto y1 = DateTime(1970, 1, 1, 1, 2, 5); // 3_725 sec  3_725_000
    SysTime s0 = SysTime(DateTime(1970, 1, 1, 0, 0, 0));
@@ -40,8 +41,9 @@ void main() {
    writeln("dt.toUnixTime    :(doesn't exist)");
    writeln("dt.year          :", dt.year);
    writefln("month %d", dt.month);
-   writeln("dt.month         :", dt.month);
-   writeln("dt.minute         :", dt.minute);
+   writeln("dt.month          : ", dt.month);
+   writeln("dt.minute         : ", dt.minute);
+   writefln("dt in format     : %s", dt);
 
    writeln();
 
