@@ -18,8 +18,8 @@ void main(string[] args) {
    assert(f0.connected);
 
 
-   // si possono omettere solo quelli finali
-   Foo f1 = Foo("a", 64);
+   // C#-style: si possono omettere solo i parametri finali
+   Foo f1 = Foo("a", 64); // net e connected omessi
    assert(f1.name == "a");
    assert(f1.weight == 64);
    assert(f1.net == 0);
@@ -32,7 +32,7 @@ void main(string[] args) {
    assert(f2.net == 0);
    assert(!f2.connected);
 
-   // Nominale: i parametri pososno essere mescolati
+   // Nominale: i parametri possono essere non in ordine
    Foo f3 = {name: "a", connected: true, net: 12, weight:64};
    assert(f3.name == "a");
    assert(f3.weight == 64);
