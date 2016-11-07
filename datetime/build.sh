@@ -1,2 +1,2 @@
-dmd -unittest app.d  -ofdt
-./dt
+dmd -unittest app.d
+./app
