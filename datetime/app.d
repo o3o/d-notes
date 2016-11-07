@@ -43,14 +43,20 @@ void main() {
    writeln("dt.toSimpleString: ", dt.toSimpleString);
    writeln("dt.toString      : ", dt.toString);
    writeln("dt.toUnixTime    :  (doesn't exist)");
-   writeln("dt.year          : ", dt.year);
    writeln();
 
-   writefln("month            : %d", dt.month);
-   writefln("month            : %s", dt.month);
+   writeln("dt.year          : ", dt.year);
    writeln("dt.month         : ", dt.month);
+   writeln("dt.day           : ", dt.day);
+   writeln("dt.hour          : ", dt.hour);
    writeln("dt.minute        : ", dt.minute);
+   writeln("dt.second        : ", dt.second);
+   writeln();
 
+   writeln("With format");
+   writeln("----------");
+   writefln("month format d   : %d", dt.month);
+   writefln("month format s   : %s", dt.month);
    writeln();
 
    //http://dlang.org/intro-to-datetime.html
