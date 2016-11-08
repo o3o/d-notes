@@ -18,6 +18,7 @@ void main() {
    writeln("now.toSimpleString: ", now.toSimpleString);
    writeln("now.toString      : ", now.toString);
    writeln("now.toUnixTime    : ", now.toUnixTime);
+   writefln("now in format    : %.0s", now);
 
    // Creazione
    //----------------------------------------
@@ -42,8 +43,12 @@ void main() {
    writeln("dt.toISOString   : ", dt.toISOString);
    writeln("dt.toSimpleString: ", dt.toSimpleString);
    writeln("dt.toString      : ", dt.toString);
-   writeln("dt.toUnixTime    :  (doesn't exist)");
-   writeln();
+   writeln("dt.toUnixTime    :(doesn't exist)");
+   writeln("dt.year          :", dt.year);
+   writefln("month %d", dt.month);
+   writeln("dt.month          : ", dt.month);
+   writeln("dt.minute         : ", dt.minute);
+   writefln("dt in format     : %s", dt);
 
    writeln("dt.year          : ", dt.year);
    writeln("dt.month         : ", dt.month);

@@ -55,4 +55,15 @@ void main(string[] args) {
    sw.reset();
    assert(sw.peek().msecs == 0);
    assert(sw.peek().seconds == 0);
+
+
+   StopWatch sw1 = StopWatch(AutoStart.yes);
+   assert(sw1.running);
+
+   // non compilabile:
+   //import std.typecons : Flag, Yes, No;
+   //StopWatch sw2 = StopWatch(Yes.autoStart);
+   //assert(sw2.running);
+   //StopWatch sw3 = Yes.autoStart;
+   //assert(sw3.running);
 }
