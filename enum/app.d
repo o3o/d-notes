@@ -37,9 +37,21 @@ void main(string[] args) {
       stop = 4,
       error = 5,
    };
+   // enum -> int
    assert(cast(int)Outcome.fail == 3);
-   Outcome  o = cast(Outcome)5;
+
+   // int -> enum
+   Outcome o = cast(Outcome)5;
    assert(o == Outcome.error);
+   import std.stdio;
+   writeln(o);
+
+   Outcome c0 = cast(Outcome)17;
+   Outcome c1 = 17.to!Outcome();
+   writeln(c0);
+   writeln(c1);
+
+
    // nel caso di enum senza valore il tipo e int e il valore inizia da zero
    assert(cast(int)Suit.hearts == 1);
 

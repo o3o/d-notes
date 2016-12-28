@@ -33,10 +33,20 @@ void main(string[] args) {
    // a differenza degli array statici dynArray1 e' empty, infatti:
    assert(dynArray1.length == 0);
 
+   // Inizializzazione
+   // ---------
+   int[] arr = new int[0];
+   int[] alternativeArr = new int[](0);
+   /*
+    * Some D users think the syntax auto arr = new int[3] is too
+    * similar to the static array declaration auto arr = int[3]. D now
+    * supports an alternative syntax, new int[](3). This new syntax is
+    * recommended, but old habits die hard. There is a large body of D code
+    * that uses the older syntax.
+    */
    int[] dynArray2 = new int[](10);
-
    assert(dynArray2.length == 10);
-   writeln(dynArray1.capacity);
+   writeln("new int[](10) cap: ", dynArray2.capacity);
 
    dynArray2 ~= 2;
    assert(dynArray2.length == 11);
