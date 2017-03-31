@@ -5,8 +5,7 @@ license "GPL v2"
 
 /*libs "gtkd" platform="windows"*/
 dependency "gtk-d:gtkd" version="~>3.5.1"
-lflags "/SUBSYSTEM:WINDOWS:5.01" platform="windows-x86-dmd"
+lflags "/SUBSYSTEM:windows:5.01" platform="windows-x86-dmd"
 
 lflags "/SUBSYSTEM:windows" platform="windows-x86_64-dmd"
-
-/*lflags "/ENTRY:mainCRTStartup" platform="windows-x86_64-dmd"*/
+lflags "/ENTRY:mainCRTStartup" platform="windows-x86_64-dmd"

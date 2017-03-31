@@ -1,0 +1,6 @@
+name "ut"
+description "A minimal D application."
+authors "o3o"
+copyright "Copyright © 2016, o3o"
+license "proprietary"
+dependency "unixtime" version="~>0.1.0"
