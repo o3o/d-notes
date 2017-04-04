@@ -2,9 +2,8 @@ import std.stdio;
 import vibe.data.json;
 
 void main() {
-   //writeln(create1);
-
-   testExist;
+   writeln(create2.toPrettyString);
+   //testExist;
    //useAppend;
    //noAppend;
 }
@@ -79,6 +78,32 @@ Json create1() {
             Json([ "type": Json("null"), "key": Json("02") ])
          ])
    ]);
+}
+Json create2() {
+   Json x = Json.emptyArray;
+   x ~= Json(10);
+   x ~= Json(11);
+   x ~= Json(12);
+   Json j = Json(
+         [
+         "id": Json("octave"),
+         "type": Json("octave_chart"),
+         "value": Json(["x": x, "y": Json(2), "z": Json(3)])
+         ]);
+
+   Json e = Json.emptyArray;
+   e ~= j;
+   e ~= Json(         [
+         "id": Json("cul"),
+         "type": Json("pela"),
+         "value": Json("cacc")
+         ]);
+   Json c = Json(
+         [
+         "container": e
+         ]
+         );
+      return c;
 }
 
 void useAppend() {
