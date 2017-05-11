@@ -6,6 +6,7 @@
 +/
 
 /+
+M. Parker pag. 48
 Un array puo' essere pensato come una struttura
 struct(T) {
    size_t length;
@@ -79,7 +80,7 @@ void main(string[] args) {
 
    // Passaggio di array a funzioni
    //----------------------------------------
-   // pag 72
+   // pag 72 ????
    // Un array e' concettualmente una struttura con lunghezza e un puntatore (struttura come sopra).
    // Mentre una slice può condividere la memoria con il suo array di origine (tenArray), la sua lunghezza e puntatore sono completamente indipendenti.
    // Come tale, una slice e' passato per valore a una funzione.
@@ -139,8 +140,8 @@ void main(string[] args) {
 }
 
 /*
-   arr e' una copia di tenArray, aggiungere un dato modfifica la lunghezza della copia
-   ma non dell'originale
+ * arr e' una copia di tenArray, aggiungere un dato modifica la lunghezza della copia
+ * ma non dell'originale
  */
 void append(int[] arr, int val) {
    writeln("Inside append: ", arr.ptr);
@@ -150,9 +151,9 @@ void append(int[] arr, int val) {
 }
 
 /**
-  Anche in questo caso arr e' una copia di tenArray, (cioe' della struttura sopra)
-  e quindi prt punta alla stessa area di memoria.
-  Modificando la memoria condivisa si modifica anche tenArray
+  * Anche in questo caso arr e' una copia di tenArray, (cioe' della struttura sopra)
+  * e quindi prt punta alla stessa area di memoria.
+  * Modificando la memoria condivisa si modifica anche tenArray
  */
 void update(int[] arr, int val) {
    arr[0] = val;
