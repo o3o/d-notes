@@ -154,8 +154,8 @@ void main(string[] args) {
 }
 
 /*
-   arr e' una copia di tenArray, aggiungere un dato modfifica la lunghezza della copia
-   ma non dell'originale
+ * arr e' una copia di tenArray, aggiungere un dato modifica la lunghezza della copia
+ * ma non dell'originale
  */
 void append(int[] arr, int val) {
    writeln("Inside append: ", arr.ptr);
@@ -165,9 +165,9 @@ void append(int[] arr, int val) {
 }
 
 /**
-  Anche in questo caso arr e' una copia di tenArray, (cioe' della struttura sopra)
-  e quindi prt punta alla stessa area di memoria.
-  Modificando la memoria condivisa si modifica anche tenArray
+  * Anche in questo caso arr e' una copia di tenArray, (cioe' della struttura sopra)
+  * e quindi prt punta alla stessa area di memoria.
+  * Modificando la memoria condivisa si modifica anche tenArray
  */
 void update(int[] arr, int val) {
    arr[0] = val;

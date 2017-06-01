@@ -184,9 +184,9 @@ void main(string[] args) {
 
    // Uso in alyx
    //----------------------------------------
-   // In alix pensavo che modificando la copia, si modificasse anche l'originale:
-   // in realta' e' ovvio che non accada perche' i variant sono strutture quindi assegnadole
-   // NON si assegna il puntatore ome per le classi.
+   // In alyx pensavo che modificando la copia, si modificasse anche l'originale:
+   // in realta' e' ovvio che NON accada perche' i variant sono strutture quindi assegnadole
+   // NON si assegna il puntatore come per le classi.
    Parm[string] params;
    params["originale"] = 19.64;
 
@@ -247,6 +247,15 @@ void main(string[] args) {
 
    // cambia anche l'originale
    assert(params["originale"] == 64.);
+
+
+   Parm[string] buf0;
+   buf0.setX();
+   assert(buf0.length == 0);
+}
+
+private void setX(Parm[string] b) {
+   b["x"] = 19.64;
 }
 
 alias Parm = Algebraic!(bool, int, double, string);
