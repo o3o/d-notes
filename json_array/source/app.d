@@ -2,12 +2,27 @@ import std.stdio;
 import vibe.data.json;
 
 void main() {
-   writeln(create2.toPrettyString);
+   //writeln(create2.toPrettyString);
    //testExist;
-   //useAppend;
+   useAppend;
    //noAppend;
 }
 
+/**
+* Verifica che aggiungendo jsonarray con ~, si ottiene un arra e non un array di array
+*
+* Examples:
+* Si ottiene
+* --------------------
+*  [10,11,20,21]
+* --------------------
+*
+* e non
+* --------------------
+*  [[10,11],20,21]]
+* --------------------
+*
+*/
 void noAppend() {
    Json jA = Json.emptyArray;
    jA ~= Json(10);
@@ -79,6 +94,7 @@ Json create1() {
          ])
    ]);
 }
+
 Json create2() {
    Json x = Json.emptyArray;
    x ~= Json(10);
@@ -106,12 +122,17 @@ Json create2() {
       return c;
 }
 
+/**
+* Dimostra che con appendArray si ottengono array di array
+*
+*/
 void useAppend() {
    // con append array
    //----------------------------------------
    Json jA = Json.emptyArray;
    jA ~= 11;
    jA ~= 12;
+   // jA = [11, 12]
 
    Json jB = Json.emptyArray;
    jB ~= 21;
@@ -120,7 +141,6 @@ void useAppend() {
    Json jrow = Json.emptyArray;
    jrow.appendArrayElement(jA);
    jrow.appendArrayElement(jB);
-
 
    Json j = Json.emptyObject;
    j["data"] = jrow;

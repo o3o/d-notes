@@ -63,6 +63,16 @@ void main(string[] args) {
    // Gli array dinamici sono slices e le slices sono array dinamici
    auto tenArray = [5,10,15,20,25,30,35,40,45,50];
    auto sliced = tenArray[0 .. 5];
+   assert(sliced.length == 5);
+   assert(sliced[0] == 5);
+   assert(sliced[4] == 25);
+
+   auto last = tenArray[7 .. $];
+   assert(last.length == 3);
+   assert(last[0] == 40);
+   assert(last[1] == 45);
+   assert(last[2] == 50);
+
 
    // Quando una slice inizia a vivere, non e' allocata nessuna memoria,..
    assert(sliced.capacity == 0);

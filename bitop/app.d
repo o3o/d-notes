@@ -88,6 +88,7 @@ void main(string[] args) {
    assert(bt(array.ptr, 1));
    // sono ulong cioe 8 byte => 64 bit
    static assert(array[0].sizeof == 8);
+   // test del bit 0 e 1 di array[1]
    assert(bt(array.ptr, 0 + 64));
    assert(bt(array.ptr, 1 + 64));
 
