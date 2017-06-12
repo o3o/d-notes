@@ -60,7 +60,8 @@ class Wait {
    */
    void reset() {
       writefln("RESET status %s", status);
-      if (status != Status.idle) {
+      // !this.idle e' equivalente a (status != Status.idle)
+      if (!this.idle) {
          writeln("\t toIdle");
 
          this.toIdle();
@@ -72,7 +73,7 @@ void main() {
    auto w = new Wait();
    assert(w.status == Wait.Status.idle);
    w.toTimeout();
-   //assert(w.status == Wait.Status.timeout);
+   assert(w.status == Wait.Status.timeout);
 
    writeln("TO done");
 
