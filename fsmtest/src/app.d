@@ -12,7 +12,7 @@ class Wait {
 
    Status status = Status.idle;
    @BeforeTransition("timeout") private bool EnterTest() {
-      writefln("BEFORE transition TEST timeout status: %s", status);
+      writefln("BEFORE GUARD transition timeout status: %s prev: %s", status, this.prevstatus);
       // ritorna true se lo stato e' idle.
       // E' equivalente a
       // return status == Status.idle;
@@ -20,27 +20,27 @@ class Wait {
    }
 
    @BeforeTransition("timeout") private void BTimeout() {
-      writefln("BEFORE transition timeout status: %s", status);
+      writefln("BEFORE transition timeout status: %s prev: %s", status, this.prevstatus);
    }
 
    @AfterTransition("timeout") private void ATimeout() {
-      writefln("AFTER transition timeout status: %s", status);
+      writefln("AFTER transition timeout status: %s prev: %s", status, this.prevstatus);
    }
 
    @BeforeTransition("done") private void Bdone() {
-      writefln("BEFORE transition done status: %s", status);
+      writefln("BEFORE transition done status: %s prev: %s", status, this.prevstatus);
    }
 
    @AfterTransition("done") private void Adone() {
-      writefln("AFTER transition done status: %s", status);
+      writefln("AFTER transition done status: %s prev: %s", status, this.prevstatus);
    }
 
    @BeforeTransition("idle") private void Bidle() {
-      writefln("BEFORE transition idle status: %s", status);
+      writefln("BEFORE transition idle status: %s prev: %s", status, this.prevstatus);
    }
 
    @AfterTransition("idle") private void Aidle() {
-      writefln("AFTER transition idle status: %s", status);
+      writefln("AFTER transition idle status: %s prev: %s", status, this.prevstatus);
       reset();
    }
 
@@ -74,6 +74,7 @@ void main() {
    assert(w.status == Wait.Status.idle);
    w.toTimeout();
    assert(w.status == Wait.Status.timeout);
+   writefln("prev %s", w.prevstatus());
 
    writeln("TO done");
 
