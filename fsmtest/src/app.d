@@ -1,12 +1,16 @@
 import std.stdio;
 import state_machine;
 class Wait {
-   enum Status  {
+   private enum Status {
+      cleanup,
+      done,
+      error,
+      halt,
       idle,
-      waitTrue, // attende che l'espressione sia true
-      waitDelay, // attende il delay finale
+      running,
       timeout,
-      done //esce da done sono se non enabled
+      waitDelay, // attende il delay finale
+      waitTrue, // attende che l'espressione sia true
    }
    mixin StateMachine!status;
 
@@ -67,6 +71,9 @@ class Wait {
          this.toIdle();
       }
    }
+   void execute() {
+      this.toIdle();
+   }
 }
 
 void main() {
@@ -81,6 +88,5 @@ void main() {
    w.toDone();
    w.toDone();
    w.reset();
-
-   w.toIdle();
+   w.execute();
 }
