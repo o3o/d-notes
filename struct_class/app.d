@@ -5,6 +5,13 @@ struct Foo {
    int net;
    bool connected;
 }
+struct Bar {
+   string key;
+   string value;
+   this(string k) {
+      this.key = k;
+   }
+}
 void main(string[] args) {
    // vedi pag. 95 e 102  Parker
 
@@ -40,6 +47,10 @@ void main(string[] args) {
    assert(f3.connected);
 
    auto f4 = getFoo();
+
+   Bar b = Bar("K");
+   b.value = "aaa";
+   assert(b.key == "K");
 }
 
 Foo getFoo() {
