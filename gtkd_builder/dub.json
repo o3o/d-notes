@@ -7,6 +7,6 @@
    "targetType":  "executable",
    "targetPath": "bin",
    "dependencies": {
-      "gtk-d:gtkd": ">=2.4.0"
+      "gtk-d:gtkd": "~>3.6.6"
    }
 }
