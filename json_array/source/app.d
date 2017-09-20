@@ -4,8 +4,8 @@ import vibe.data.json;
 void main() {
    //writeln(create2.toPrettyString);
    //testExist;
-   useAppend;
-   //noAppend;
+   //useAppend;
+   noAppend;
 }
 
 /**

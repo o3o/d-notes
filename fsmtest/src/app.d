@@ -39,6 +39,10 @@ class Wait {
       writefln("AFTER transition done status: %s prev: %s", status, this.prevstatus);
    }
 
+   @AfterTransition("done") private void Adone2() {
+      writefln("\t AFTER transition 2 done status: %s prev: %s", status, this.prevstatus);
+   }
+
    @BeforeTransition("idle") private void Bidle() {
       writefln("BEFORE transition idle status: %s prev: %s", status, this.prevstatus);
    }
