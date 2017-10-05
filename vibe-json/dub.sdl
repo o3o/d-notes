@@ -1,8 +1,11 @@
-name "redis_test"
-description "A minimal D application."
-dependency "vibe-d:redis" version="~>0.8.2-alpha.1"
+name "vibe-json"
+description "Vibe.d json test"
+
+dependency "vibe-d:data" version="~>0.8.2-alpha.2"
 
 authors "dao"
+copyright "Copyright © 2017, dao"
+license "proprietary"
 
 
 configuration "unittest" {
@@ -11,7 +14,7 @@ configuration "unittest" {
    /*mainSourceFile "tests/app.d"*/
    /*sourcePaths "tests"*/
    /*excludedSourceFiles "src/app.d"*/
-   preBuildCommands "dub run unit-threaded -c gen_ut_main -- -f source/ut.d"
+   preBuildCommands "dub run unit-threaded -c gen_ut_main -- -f src/ut.d"
    dependency "unit-threaded" version="~>0.7.31"
 }
 

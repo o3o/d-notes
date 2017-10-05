@@ -11,7 +11,7 @@ void main() {
    writefln("500 + 200 = %s", a.seconds);
 
    UnixTimeHiRes s = UnixTimeHiRes.now + UnixTime(5);
-   writefln("now %s", UnixTime.now(ClockType.REALTIME));
+   writefln("now %s", UnixTime.now());
 
    //writeln("s", s.seconds);
    writeln("ns ", s.nanos);
@@ -20,7 +20,7 @@ void main() {
    auto ut0 = SysTime(DateTime(1970, 1, 1, 0, 0, 0)).stdTime;
    enum HNS_TO_MS = 1E-7;
    long time = cast(long)((now.stdTime - ut0) * HNS_TO_MS); // sono hnsec cioe' centinaia di nsec (1 = 100ns)
-   UnixTime ut = UnixTime.now(ClockType.REALTIME);
+   UnixTime ut = UnixTime.now();
    auto uth = UnixTimeHiRes.now;
    writefln("UT HI %s s %s ms %s ns", uth.seconds ,  uth.seconds * 1000, uth.nanos);
    writefln("UT    %s s %s ms", ut.seconds ,  ut.seconds * 1000);
