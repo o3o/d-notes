@@ -220,3 +220,28 @@ private bool existsInList(RedisDatabase db, string list, string el) {
    }
    return ex;
 }
+
+@("copylist")
+unittest {
+   import std.array : array;
+   import std.string;
+   auto redis = new RedisClient();
+   RedisDatabase db = redis.getDatabase(0);
+   db.del("lll");
+   db.del("cul");
+
+   db.lpush("lll", "a");
+   db.lpush("lll", "b");
+   db.lpush("lll", "c");
+
+   db.copyList("lll", "cul");
+
+
+}
+
+private void copyList(RedisDatabase db, string src, string dst) {
+   auto list = db.lrange(src, 0, -1);
+   foreach (l; list) {
+      db.rpush(dst, l);
+   }
+}
