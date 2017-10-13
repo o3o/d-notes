@@ -1,12 +1,16 @@
 import std.stdio;
 import state_machine;
 class Wait {
-   enum Status  {
+   private enum Status {
+      cleanup,
+      done,
+      error,
+      halt,
       idle,
-      waitTrue, // attende che l'espressione sia true
-      waitDelay, // attende il delay finale
+      running,
       timeout,
-      done //esce da done sono se non enabled
+      waitDelay, // attende il delay finale
+      waitTrue, // attende che l'espressione sia true
    }
    mixin StateMachine!status;
 
@@ -33,6 +37,10 @@ class Wait {
 
    @AfterTransition("done") private void Adone() {
       writefln("AFTER transition done status: %s prev: %s", status, this.prevstatus);
+   }
+
+   @AfterTransition("done") private void Adone2() {
+      writefln("\t AFTER transition 2 done status: %s prev: %s", status, this.prevstatus);
    }
 
    @BeforeTransition("idle") private void Bidle() {
@@ -67,6 +75,9 @@ class Wait {
          this.toIdle();
       }
    }
+   void execute() {
+      this.toIdle();
+   }
 }
 
 void main() {
@@ -82,6 +93,5 @@ void main() {
    w.toDone();
    w.toDone();
    w.reset();
-
-   w.toIdle();
+   w.execute();
 }

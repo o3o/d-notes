@@ -95,6 +95,8 @@ struct S_1 {
    char d;
 } unittest {
    S_1 s = S_1(1,2,3,4);
+   writeln("\tS1");
+
    assert(s.sizeof == 8);
    assert(s.alignof == 4);
 
