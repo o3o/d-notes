@@ -5,6 +5,7 @@ struct Foo {
    int net;
    bool connected;
 }
+
 struct Bar {
    string key;
    string value;
@@ -12,6 +13,18 @@ struct Bar {
       this.key = k;
    }
 }
+
+struct Fun {
+   private string _key;
+   @property string key() { return _key; }
+
+   string value;
+   this(string k) {
+      _key = k;
+   }
+   @disable this();
+}
+
 void main(string[] args) {
    // vedi pag. 95 e 102  Parker
 
@@ -48,14 +61,27 @@ void main(string[] args) {
 
    auto f4 = getFoo();
 
+   Bar b0 = Bar();
+   assert(b0.key == "");
    Bar b = Bar("K");
    b.value = "aaa";
    assert(b.key == "K");
+
+   // Non si puo' fare:
+   //Fun fu0 = Fun();
+   // Error: constructor app.Fun.this is not callable because it is annotated with @disable
+
+   Fun f = Fun("KEY");
+   f.value = "aaa";
+   assert(f.key == "KEY");
+   // anche se private _key e' accessibile
+   f._key = "A";
+   assert(f.key == "A");
 }
 
 Foo getFoo() {
    // La riga seguente non funziona
    // return {name: "a", connected: true, net: 12, weight:64};
-    // return Foo(name: "a", connected: true, net: 12, weight:64);
+   // return Foo(name: "a", connected: true, net: 12, weight:64);
    return Foo("a", 64);
 }

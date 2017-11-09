@@ -235,8 +235,6 @@ unittest {
    db.lpush("lll", "c");
 
    db.copyList("lll", "cul");
-
-
 }
 
 private void copyList(RedisDatabase db, string src, string dst) {
@@ -245,3 +243,17 @@ private void copyList(RedisDatabase db, string src, string dst) {
       db.rpush(dst, l);
    }
 }
+
+@("inc")
+unittest {
+   import std.array : array;
+   import std.string;
+   auto redis = new RedisClient();
+   RedisDatabase db = redis.getDatabase(0);
+   //.b.del("ii");
+   db.set!long("ii", 10);
+   db.incr("ii");
+   db.get!long("ii").shouldEqual(11);
+   db.del("ii");
+}
+

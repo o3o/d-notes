@@ -1,0 +1,7 @@
+name "sql-server"
+description "Microsoft SQL server test"
+authors "dao"
+copyright "Copyright © 2017, dao"
+license "GPL"
+
+dependency "arsd-official:mssql" version="~>1.2.2"
