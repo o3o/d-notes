@@ -1,0 +1,12 @@
+name "dub-pre"
+description "Esempio di preBuild e preGenerate"
+authors "dao"
+copyright "Copyright © 2018, dao"
+license "proprietary"
+
+preGenerateCommands "echo pregenerate"
+preGenerateCommands "echo pregenerate2"
+preBuildCommands "echo preBuild" "echo preBuild2"
+
+postGenerateCommands "echo postGenerate"
+postBuildCommands "echo postBuild $D_DIR"

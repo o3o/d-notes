@@ -1,0 +1,9 @@
+name "vibe-user-log"
+description "A minimal D application."
+authors "dao"
+copyright "Copyright © 2018, dao"
+license "proprietary"
+dependency "vibe-d:redis" version="~>0.8.3-alpha.4"
+dependency "vibe-d:core" version="~>0.8.3-alpha.4"
+versions "VibeUseOpenSSL11"
+/*versions "VibeDefaultMain"*/

@@ -86,4 +86,14 @@ void main(string[] args) {
    assert("%#X".format(10) == "0XA");
    //writefln("%#6x", 10);
    assert("%#6x".format(10) == "   0xa");
+
+   // Array
+   // -----------
+   // -----
+   int[] arr = [1,2,3];
+   assert("array %(%s%)".format(arr) == "array 123");
+   assert("array [%(%s, %)]".format(arr) == "array [1, 2, 3]");
+
+   int[] arre = [10,11,20];
+   assert("[%(0x%02x, %)]".format(arre) == "[0x0a, 0x0b, 0x14]");
 }

@@ -43,6 +43,17 @@ class Wait {
       writefln("\t AFTER transition 2 done status: %s prev: %s", status, this.prevstatus);
    }
 
+   @AfterTransition("done")
+   @AfterTransition("halt")
+   private void Adone3() {
+      writefln("\t AFTER transition 3 done status: %s prev: %s", status, this.prevstatus);
+   }
+
+   @AfterTransition("halt")
+   private void Ahalt() {
+      writefln("AFTER transition HALT status: %s prev: %s", status, this.prevstatus);
+   }
+
    @BeforeTransition("idle") private void Bidle() {
       writefln("BEFORE transition idle status: %s prev: %s", status, this.prevstatus);
    }
@@ -81,6 +92,7 @@ class Wait {
 }
 
 void main() {
+   /+
    auto w = new Wait();
    assert(w.status == Wait.Status.idle);
    w.toTimeout();
@@ -94,4 +106,14 @@ void main() {
    w.toDone();
    w.reset();
    w.execute();
+   +/
+}
+
+unittest {
+   writeln("########################################");
+   auto w = new Wait();
+   w.toHalt();
+   writeln("########################################");
+   w.toDone();
+
 }
