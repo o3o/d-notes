@@ -103,5 +103,47 @@ unittest {
    jrow[0].length.shouldEqual(2);
    jrow[1].length.shouldEqual(2);
    jrow.toString.shouldBeSameJsonAs(`[[11,12], [21,22], [31,32]]`);
+}
 
+/**
+ * Verifica che  valori di default nelle strutture siano correttamente interpretati
+ *
+ * Ha senso mettere un default solo se il parametro e' optional (altrimenti il default verrebbe cmq sovrascritto)
+ *
+ */
+@("default_value")
+unittest {
+   struct Algo {
+      string type;
+      string key;
+      @optional @name("enable_at_startup") bool enableAtStartup = true;
+      @optional string description = "cul";
+      @optional int ii = 42;
+   }
+   string json0 = `{
+         "key": "chiave",
+         "type": "prova"
+        }`;
+
+   Algo a = deserializeJson!Algo(json0);
+   a.type.shouldEqual("prova");
+   a.key.shouldEqual("chiave");
+   a.description.shouldEqual("cul");
+   a.enableAtStartup.shouldBeTrue;
+   a.ii.shouldEqual(42);
+
+   string json1 = `{
+         "key": "chiave",
+         "type": "prova",
+         "enable_at_startup": false,
+         "description": "piss",
+         "ii": 43
+        }`;
+
+   Algo b = deserializeJson!Algo(json1);
+   b.type.shouldEqual("prova");
+   b.key.shouldEqual("chiave");
+   b.description.shouldEqual("piss");
+   b.enableAtStartup.shouldBeFalse;
+   b.ii.shouldEqual(43);
 }

@@ -1,5 +1,26 @@
 import std.stdio;
 import state_machine;
+struct IdlePower {
+
+   mixin StateMachine!status;
+   private enum IdlePowerStatus {
+      idle,
+      done
+   }
+   private IdlePowerStatus status = IdlePowerStatus.idle;
+
+
+   @property bool isDone() {
+      return this.done;
+   }
+}
+
+unittest {
+   IdlePower ip = IdlePower();
+   assert(!ip.isDone);
+
+}
+
 class Wait {
    private enum Status {
       cleanup,
@@ -47,6 +68,11 @@ class Wait {
    @AfterTransition("halt")
    private void Adone3() {
       writefln("\t AFTER transition 3 done status: %s prev: %s", status, this.prevstatus);
+   }
+
+   @AfterTransition("halt")
+   private void Adone4() {
+      writefln("\t AFTER transition 4 done status: %s prev: %s", status, this.prevstatus);
    }
 
    @AfterTransition("halt")
@@ -115,5 +141,4 @@ unittest {
    w.toHalt();
    writeln("########################################");
    w.toDone();
-
 }

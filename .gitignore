@@ -17,3 +17,4 @@ redis_test/test-runner
 redis_test/source/ut.d
 vibe-json/src/ut.d
 vibe-json/test-runner
+*.exe

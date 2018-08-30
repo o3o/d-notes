@@ -1,7 +1,7 @@
 name "vibe-json"
 description "Vibe.d json test"
 
-dependency "vibe-d:data" version="~>0.8.2-alpha.2"
+dependency "vibe-d:data" version="~>0.8.3"
 
 authors "dao"
 copyright "Copyright © 2017, dao"
@@ -11,7 +11,7 @@ license "proprietary"
 configuration "unittest" {
    targetName "test-runner"
    targetType "executable"
-   /*mainSourceFile "tests/app.d"*/
+   mainSourceFile "src/app.d"
    /*sourcePaths "tests"*/
    /*excludedSourceFiles "src/app.d"*/
    preBuildCommands "dub run unit-threaded -c gen_ut_main -- -f src/ut.d"

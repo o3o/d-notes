@@ -9,7 +9,7 @@ void main() {
 }
 
 /**
-* Verifica che aggiungendo jsonarray con ~, si ottiene un arra e non un array di array
+* Verifica che aggiungendo jsonarray con ~, si ottiene un array e non un array di array
 *
 * Examples:
 * Si ottiene
