@@ -1,8 +1,9 @@
-import gtk.Builder;
+import gtk.Builder : Builder;
 import gtk.Button;
 import gtk.Main;
 import gtk.Widget;
 import gtk.Window;
+import gtk.ApplicationWindow;
 
 import gobject.Type;
 
@@ -23,7 +24,7 @@ int main(string[] args) {
       gladefile = args[1];
    } else {
       writefln("No glade file specified, using default \"../glade/x1.glade\"");
-      gladefile = "../glade/x1.glade";
+      gladefile = "./glade/x1.glade";
    }
 
    // in gtk.Builder
@@ -33,29 +34,36 @@ int main(string[] args) {
       writefln("Oops, could not create Glade object, check your glade file ;)");
       exit(1);
    }
+   auto w = new View(builder);
+   w.show();
+   Main.run();
 
-   Window w = cast(Window)builder.getObject("window1");
+   return 0;
+}
 
-   if (w !is null) {
-      w.setTitle("This is a glade window");
-      w.addOnHide(delegate void(Widget aux) {
-         exit(0);
-      });
+class View {
+   private Builder builder;
+   private ApplicationWindow main;
+
+   this(Builder builder) {
+      assert(builder !is null);
+      this.builder = builder;
+      main = builder.getW!ApplicationWindow("window1");
+      assert(main !is null);
+
+      main.setTitle("This is a glade window");
+      main.addOnHide(delegate void(Widget aux) { exit(0); });
 
       Button b = cast(Button)builder.getObject("button1");
       if (b !is null) {
          b.addOnClicked((Button aux) => exit(0));
-         //b.addOnClicked(delegate void(Button aux) {
-            //exit(0);
-         //});
       }
-   } else {
-      writefln("No window?");
-      exit(1);
    }
+   void show() {
+      main.showAll();
+   }
+}
 
-   w.showAll();
-   Main.run();
-
-   return 0;
+T getW(T)(Builder b, string key) {
+   return cast(T)b.getObject(key);
 }

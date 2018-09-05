@@ -4,7 +4,7 @@ import vibe.db.redis.redis;
 version (unittest) {
    import unit_threaded;
 } else {
-
+/+
 void main(string[] args) {
       assert(args.length > 0);
 
@@ -30,6 +30,7 @@ void main(string[] args) {
             writeln("NO args");
       }
 }
++/
 }
 
 class RedisLogger {

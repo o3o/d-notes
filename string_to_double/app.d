@@ -17,5 +17,7 @@ void main(string[] args) {
 
    string sc = "+9.91000000E+37 NAN,0000,00,00,00,00,00.000,0000,0";
    assert(sc.parse!double == +9.91000000E+37);
+   import std.stdio;
+   writeln("@@@cul".chompPrefix("@"));
 
 }
