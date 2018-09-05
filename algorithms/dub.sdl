@@ -1,0 +1,13 @@
+name "alg"
+description "Algorithm examples."
+
+authors "Orfeo Da Vià"
+configuration "unittest" {
+   targetName "test-runner"
+   targetType "executable"
+   mainSourceFile "src/ut.d"
+
+   preBuildCommands "dub run unit-threaded -c gen_ut_main -- -f src/ut.d"
+   dependency "unit-threaded" version="~>0.7.51"
+}
+
