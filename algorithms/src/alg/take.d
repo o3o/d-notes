@@ -17,3 +17,26 @@ void takeTest() {
    ubyte[] s1 = buf1.take(7);
    writeln(s1);
 }
+
+void testJoin() {
+   import std.conv : to;
+   import std.stdio;
+
+   Foo[] foos;
+   foreach (i; 0 .. 10) {
+      foos ~= Foo(i, "a");
+   }
+
+   string list = foos
+      .map!(f => f.id.to!string)
+      //.map!(to!string)
+      .join(",");
+
+   writeln(list);
+
+}
+
+struct Foo {
+   long id;
+   string name;
+}

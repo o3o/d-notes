@@ -4,10 +4,10 @@ void main(string[] args) {
    // Enumerazione anonime
    //----------------------------------------
    // se non si dichara il tipo e' int
-   enum {top, bottom, left, right};
+   enum {top, bottom, left, right}
    assert(typeid(top) == typeid(int));
    // qui e' un ubyte
-   enum : ubyte { red, green, blue};
+   enum : ubyte { red, green, blue}
    assert(typeid(red) == typeid(ubyte));
 
    // Enumerazione anonime con un solo membro
@@ -36,7 +36,7 @@ void main(string[] args) {
       fail = 3,
       stop = 4,
       error = 5,
-   };
+   }
    // enum -> int
    assert(cast(int)Outcome.fail == 3);
 
@@ -44,19 +44,33 @@ void main(string[] args) {
    Outcome o = cast(Outcome)5;
    assert(o == Outcome.error);
    import std.stdio;
-   writeln(o);
 
-   Outcome c0 = cast(Outcome)17;
-   Outcome c1 = 17.to!Outcome();
-   writeln(c0);
-   writeln(c1);
+   Outcome c0 = cast(Outcome)6;
+   writeln("c0: ", c0); // cosa vale c0?
+
+   bool outErr;
+   try {
+      Outcome c1 = 17.to!Outcome();
+   } catch (Exception e) {
+      outErr = true;
+   }
+   assert(outErr);
 
 
    // nel caso di enum senza valore il tipo e int e il valore inizia da zero
    assert(cast(int)Suit.hearts == 1);
 
-   enum Rgb : ubyte { red = 1, green = 2, blue = 3 };
+   enum Rgb : ubyte { red = 1, green = 2, blue = 3 }
    assert(cast(ubyte)Rgb.red == 1);
+
+   // strutttura
+   enum Foo FOO = {name: "ODV", age: 54};
+   assert(FOO.name == "ODV");
+}
+
+struct Foo {
+   string name;
+   int age;
 }
 
 import std.conv;

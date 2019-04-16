@@ -1,4 +1,4 @@
-/import std.stdio;
+import std.stdio;
 
 /* # typeid
  * Da TDPL pag. 32:
@@ -28,6 +28,7 @@ void main() {
    writeln("class info:", label.classinfo); //=>  app.Label
    writeln("class info name:", label.classinfo.name); //=> app.Label
    writeln("tostring label:", label.toString()); //=> app.Label
+   writefln("label: %s", label); //=> app.Label
 
    // non si puo' fare:
    // writeln("typeof x:", typeof("aa"));

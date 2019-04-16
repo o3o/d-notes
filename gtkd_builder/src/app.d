@@ -6,10 +6,8 @@ import gtk.Window;
 import gtk.ApplicationWindow;
 
 import gobject.Type;
-
-
 import std.stdio;
-import std.c.process;
+//import std.c.process;
 
 /**
  * Usage ./builder /path/to/your/glade/file.glade

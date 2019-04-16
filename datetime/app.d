@@ -19,6 +19,8 @@ void main() {
    writeln("now.toString      : ", now.toString);
    writeln("now.toUnixTime    : ", now.toUnixTime);
    writefln("now in format    : %.0s", now);
+   string nn = "%d-%d-%d %02d:%02d:%02d".format(now.year, now.month, now.day, now.hour, now.minute, now.second);
+   writeln("now with format       : ", nn);
 
    // Creazione
    //----------------------------------------

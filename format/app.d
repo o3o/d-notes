@@ -50,18 +50,22 @@ void main(string[] args) {
    // il flag # mette sempre il punto decimale
    //Flags:# Width:empty Precision:0 FormatChar:f
    assert("%#.0f".format(3.) == "3.");
+   assert("%#.1f".format(3.) == "3.0");
    //Flags:empty Width:empty Precision:0 FormatChar:f
    assert("%.0f".format(3.) == "3");
 
    // Width
    // -----------
-   // width indica la lunchezza mimima
+   // width indica la lunghezza mimima
    //Flags:empty Width:4 Precision:empty FormatChar:d
    assert("%4d".format(i) == "  42");
    //Flags:0 Width:4 Precision:empty FormatChar:d
    assert("%04d".format(i) == "0042");
    //Flags:empty Width:4 Precision:3 FormatChar:f
    assert("%4.3f".format(3.14) == "3.140");
+   assert("%4.3f".format(3.) == "3.000");
+   writeln("%6.3f".format(27.7));
+   //assert("%6.3f".format(27.7) == "27.7000");
    // la lunghezza minima del campo e' 6, "3.140"  ha lunghezza 5 quindi si aggiunge uno spazio
    assert("%6.3f".format(3.14) == " 3.140");
 

@@ -4,3 +4,5 @@ authors "dao"
 copyright "Copyright © 2016, dao"
 license "proprietary"
 dependency "state-machine" version="~>0.1.0"
+/*dependency "silly" version="~>0.8.0"*/
+

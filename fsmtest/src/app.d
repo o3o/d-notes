@@ -117,9 +117,59 @@ class Wait {
    }
 }
 
+class Foo {
+   private enum Status {
+      idle,
+      running,
+      stop,
+      done,
+   }
+   mixin StateMachine!status;
+
+   Status status = Status.idle;
+   void execute() {
+      final switch (status) with (Status) {
+         case idle:
+            writeln("exec case idle");
+
+            this.toRunning();
+            break;
+
+         case running:
+            writeln("exec case running");
+            break;
+
+         case stop:
+            break;
+         case done:
+            break;
+      }
+   }
+   private int _code;
+   int code() { return _code; }
+
+   @AfterTransition("idle") private void  enterIdle() {
+      writeln("enter idle");
+      _code = 1;
+   }
+   @AfterTransition("running") private void enterRun() {
+      writeln("enter running");
+      _code++;
+   }
+}
+
+@("foo")
+unittest {
+   auto f = new Foo();
+   assert(f.code == 0);
+   f.execute; // esegue idle che manda in running ed entra in running
+   assert(f.code == 1);
+   f.execute;
+}
+
 void main() {
    /+
-   auto w = new Wait();
+      auto w = new Wait();
    assert(w.status == Wait.Status.idle);
    w.toTimeout();
    assert(w.status == Wait.Status.timeout);
