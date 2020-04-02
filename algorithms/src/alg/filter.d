@@ -85,6 +85,22 @@ void radio3() {
    buf["c"].shouldBeFalse;
    buf["d"].shouldBeFalse;
 }
+@UnitTest
+void radio4() {
+   string[] list = ["a", "b", "c", "d"];
+
+   bool[string] prev = ["a": false, "b": true, "c":false, "d" : false];
+   bool[string] buf = ["a": false, "b": true, "c":true, "d" : false];
+
+   string primo = list.filter!(a => buf[a] && !prev[a]).firstOrDefault();
+   primo.shouldEqual("c");
+   list.filter!(a => a != primo).each!(a => buf[a] = false);
+
+   buf["a"].shouldBeFalse;
+   buf["b"].shouldBeFalse;
+   buf["c"].shouldBeTrue;
+   buf["d"].shouldBeFalse;
+}
 
 //https://forum.dlang.org/thread/fkufaspwlgucuhmebwzy@forum.dlang.org
 //

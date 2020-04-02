@@ -94,6 +94,17 @@ void main(string[] args) {
 
    assert(array[0] == 2);
    assert(array[1] == 0x3);
+
+   // and
+   int engMask = 1;
+   assert(0xFF & engMask);
+   assert(0x01 & engMask);
+   assert(!(0x02 & engMask));
+   engMask = 3; // 1, 2 e 3
+   assert(0xFF & engMask);
+   assert(0x01 & engMask);
+   assert(2 & engMask);
+   assert(!(4 & engMask));
 }
 
 int bitTest(ubyte b, size_t bitnum) {
