@@ -46,10 +46,10 @@ void main(string[] args) {
    import std.stdio;
    writeln(o);
 
-   Outcome c0 = cast(Outcome)17;
-   Outcome c1 = 17.to!Outcome();
-   writeln(c0);
-   writeln(c1);
+   //Outcome c0 = cast(Outcome)17;
+   //writeln(c0);
+   //Outcome c1 = 17.to!Outcome();
+   //writeln(c1);
 
 
    // nel caso di enum senza valore il tipo e int e il valore inizia da zero
@@ -57,6 +57,21 @@ void main(string[] args) {
 
    enum Rgb : ubyte { red = 1, green = 2, blue = 3 };
    assert(cast(ubyte)Rgb.red == 1);
+
+   import std.traits;
+   foreach (s; EnumMembers!Suit) {
+      setSuitG!(s);
+   }
+
+   foreach (i; 0 .. 2) {
+      exec(i, "cul");
+   }
+   writeln("-----");
+
+   import std.stdio;
+   foreach (i; 1 .. 5) {
+      writeln(i);
+   }
 }
 
 import std.conv;
@@ -68,4 +83,41 @@ string suitToString(Suit e) {
 Suit stringToSuit(string s) {
    //return cast(Suit)s; Error: cannot cast expression s of type string to Suit
    return to!(Suit)(s);
+}
+
+void setSuit(Suit s) {
+   import std.stdio;
+   writeln(s);
+}
+void setSuitInt(size_t s) {
+   import std.stdio;
+   writeln("   ", s);
+}
+
+void setSuitG(Suit s)() {
+   import std.stdio;
+   writeln("G ", s);
+}
+
+void exec(int I)(string s) {
+   import std.stdio;
+   static if (I == 0) {
+      writefln("zero %s", s);
+   }
+   static if (I == 1) {
+      writefln("uno %s", s);
+   }
+}
+
+void exec(int i, string s) {
+   switch (i) {
+      case 0:
+         exec!0(s);
+         break;
+      case 1:
+         exec!1(s);
+         break;
+      default:
+         assert(false);
+   }
 }

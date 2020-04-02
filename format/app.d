@@ -80,6 +80,9 @@ void main(string[] args) {
    // -----------
    //Flags:empty Width:empty Precision:empty FormatChar:x
    assert("%x".format(10) == "a");
+   //Flags:2 Width:2 Precision:empty FormatChar:x
+   assert("%02x".format(10) == "0a");
+
    assert("%X".format(10) == "A");
    //Flags:# Width:empty Precision:empty FormatChar:x
    assert("%#x".format(10) == "0xa");
