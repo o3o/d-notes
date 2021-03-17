@@ -45,6 +45,7 @@ void main(string[] args) {
    assert(o == Outcome.error);
    import std.stdio;
 
+<<<<<<< HEAD
    Outcome c0 = cast(Outcome)6;
    writeln("c0: ", c0); // cosa vale c0?
 
@@ -55,6 +56,10 @@ void main(string[] args) {
       outErr = true;
    }
    assert(outErr);
+   //Outcome c0 = cast(Outcome)17;
+   //writeln(c0);
+   //Outcome c1 = 17.to!Outcome();
+   //writeln(c1);
 
 
    // nel caso di enum senza valore il tipo e int e il valore inizia da zero
@@ -73,6 +78,21 @@ void main(string[] args) {
 struct Foo {
    string name;
    int age;
+
+   import std.traits;
+   foreach (s; EnumMembers!Suit) {
+      setSuitG!(s);
+   }
+
+   foreach (i; 0 .. 2) {
+      exec(i, "cul");
+   }
+   writeln("-----");
+
+   import std.stdio;
+   foreach (i; 1 .. 5) {
+      writeln(i);
+   }
 }
 
 import std.conv;
@@ -86,6 +106,39 @@ Suit stringToSuit(string s) {
    return to!(Suit)(s);
 }
 
+void setSuit(Suit s) {
+   import std.stdio;
+   writeln(s);
+}
+void setSuitInt(size_t s) {
+   import std.stdio;
+   writeln("   ", s);
+}
 
-struct Bar(Suit S) {
+void setSuitG(Suit s)() {
+   import std.stdio;
+   writeln("G ", s);
+}
+
+void exec(int I)(string s) {
+   import std.stdio;
+   static if (I == 0) {
+      writefln("zero %s", s);
+   }
+   static if (I == 1) {
+      writefln("uno %s", s);
+   }
+}
+
+void exec(int i, string s) {
+   switch (i) {
+      case 0:
+         exec!0(s);
+         break;
+      case 1:
+         exec!1(s);
+         break;
+      default:
+         assert(false);
+   }
 }
