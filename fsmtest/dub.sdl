@@ -3,6 +3,7 @@ description "A minimal D application."
 authors "dao"
 copyright "Copyright © 2016, dao"
 license "proprietary"
-dependency "state-machine" version="~>0.1.0"
+/*dependency "state-machine" version="~>0.1.0"*/
+dependency "state-machine" path="../../state-machine"
 /*dependency "silly" version="~>0.8.0"*/
 

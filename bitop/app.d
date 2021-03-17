@@ -28,9 +28,9 @@ void main(string[] args) {
    assert(!bt(&finput, 6));
    assert(!bt(&finput, 6));
 
-   // cosi non si puo' fare perche'
-   //`cast(ulong)d is not an lvalue`:
+   // cosi non si puo' fare:
    //assert(bt(&(cast(size_t)d), 0));
+   // perche' `cast(ulong)d is not an lvalue`:
 
    // con una funzione
    // ........................................

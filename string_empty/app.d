@@ -12,6 +12,7 @@ void main() {
    // ma ha lunghezza zero
    assert(emptyString.length == 0);
    assert(emptyString == null);
+   assert(emptyString == "");
 
    /**
     * M. Parker pag 59
@@ -36,4 +37,5 @@ void main() {
    assert(nullString.length == 0);
    // ed e' empty
    assert(nullString.empty);
+   assert(nullString == "");
 }

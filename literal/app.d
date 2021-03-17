@@ -23,4 +23,24 @@ void main(string[] args) {
    writeln("10. : ", typeid(10.));
    writeln("10f : ", typeid(10f));
    writeln("10.L: ", typeid(10.0L));
+
+   Daq[] dd;
+
+   auto d0 = Daq();
+   d0.init!0("aa");
+   writeln(d0.index);
+
+}
+
+struct Daq {
+   private string _t;
+   void init(int N)(string t) {
+      _index = N;
+      _t = t;
+   }
+
+   private int _index;
+   int index() {
+      return _index;
+   }
 }

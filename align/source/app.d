@@ -3,6 +3,12 @@ import std.algorithm : equal;
 
 // anche se non dichiarato `align` e' sempre impostato al default del
 // compilatore (es. 4)
+// +---+---+---+---+---+---+---+
+// |   |   |   |   |   |   |   |
+// +---+---+---+---+---+---+---+
+// +---+---+---+---+---+---+---+
+// | a |   |   |   | b |   |   |
+// +---+---+---+---+---+---+---+
 struct X {
    char a; // pos. all'offset 0
    int b;  // pos. all'offset 4

@@ -2,6 +2,13 @@
 import std.conv;
 import std.stdio;
 
+/**
+ * Ci sono due tipi di is
+ *
+ * - operatore (a is b)
+ * - espressione (is(xxx)) pg.147 Parker
+ */
+
 void main(string[] args) {
    int[] x = [1, 2, 3];
    int[] y = [1, 2, 3];

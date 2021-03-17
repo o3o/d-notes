@@ -5,6 +5,20 @@ import std.datetime;
 import std.conv;
 import std.string;
 void main() {
+   fmt();
+
+  //sum;
+}
+
+void sum() {
+   import core.time : hours, seconds;
+   SysTime s0 = SysTime(DateTime(1964, 4, 1, 12, 38, 40));
+   int d = 10;
+   writeln("     ", s0);
+   writeln("+10s:", s0 + d.seconds);
+}
+
+void conv() {
    // Conversione in stringa di SysTime
    //----------------------------------------
    // SysTime rappresenta il tempo attuale del sistema.
@@ -21,7 +35,8 @@ void main() {
    writefln("now in format    : %.0s", now);
    string nn = "%d-%d-%d %02d:%02d:%02d".format(now.year, now.month, now.day, now.hour, now.minute, now.second);
    writeln("now with format       : ", nn);
-
+}
+void create() {
    // Creazione
    //----------------------------------------
    auto y1 = DateTime(1970, 1, 1, 1, 2, 5); // 3_725 sec  3_725_000
@@ -31,11 +46,15 @@ void main() {
    // 37_250_000_000 hn
    long hn = (s1.stdTime - s0.stdTime);
    writefln("3_725s            : %.3e hns, %.3e ns %e us %e ms",  cast(float)hn, hn * 1E-2, hn * 1E-1, hn * 1E-4);
+}
 
+void fmt() {
 
    DateTime n = DateTime(1999, 7, 6, 9, 7, 5);
    string yy = "%d-%d-%d %02d:%02d:%02d".format(n.year, n.month, n.day, n.hour, n.minute, n.second);
    writeln("With format       : ", yy);
+   string yy2 = "%04d-%02d-%02d %02d:%02d:%02d".format(n.year, n.month, n.day, n.hour, n.minute, n.second);
+   writeln("With format       : ", yy2);
    writeln();
 
    DateTime dt = cast(DateTime)Clock.currTime;
@@ -81,12 +100,13 @@ void main() {
 
    st = SysTime(stdTime);
    writeln("86400s: ", st);
-   immutable(TimeZone) tz = TimeZone.getTimeZone("Etc/UCT");
-   auto gtm = SysTime(stdTime, tz);
-   writeln("GTM 86400s: ", gtm);
+   //immutable(TimeZone) tz = TimeZone.getTimeZone("Etc/UCT");
+   //auto gtm = SysTime(stdTime, tz);
+   //writeln("GTM 86400s: ", gtm);
 
    auto x = DateTime(1970, 1, 1, 0, 0, 0) + dur!"seconds"(86400);
    writeln("con somma ", x);
+   SysTime now = Clock.currTime;
 
    DateTime nowDt = to!DateTime(now);
    writeln("datetime iso:", nowDt.toISOString());

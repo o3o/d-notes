@@ -5,6 +5,10 @@
 import std.stdio;
 import std.exception;
 void main() {
+   enum string[][int] aa0 = [0 : ["a0", "a1", "a2"], 2 : ["b0", "b1", "b2"]];
+   writeln(aa0[0][0]);
+   writeln(aa0[2][1]);
+
    // Literals
    // --------------
    auto aa1 = ["x": 5.0, "y": 6.0];

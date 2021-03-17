@@ -57,22 +57,22 @@ class Wait {
    }
 
    @AfterTransition("done") private void Adone() {
-      writefln("AFTER transition done status: %s prev: %s", status, this.prevstatus);
+      writefln("AFTER transition done1 status: %s prev: %s", status, this.prevstatus);
    }
 
    @AfterTransition("done") private void Adone2() {
-      writefln("\t AFTER transition 2 done status: %s prev: %s", status, this.prevstatus);
+      writefln("\t AFTER transition  done2 status: %s prev: %s", status, this.prevstatus);
    }
 
    @AfterTransition("done")
    @AfterTransition("halt")
    private void Adone3() {
-      writefln("\t AFTER transition 3 done status: %s prev: %s", status, this.prevstatus);
+      writefln("\t AFTER transition done3 status: %s prev: %s", status, this.prevstatus);
    }
 
    @AfterTransition("halt")
    private void Adone4() {
-      writefln("\t AFTER transition 4 done status: %s prev: %s", status, this.prevstatus);
+      writefln("\t AFTER transition done4 status: %s prev: %s", status, this.prevstatus);
    }
 
    @AfterTransition("halt")
@@ -186,9 +186,9 @@ void main() {
 }
 
 unittest {
-   writeln("########################################");
+//   writeln("########################################");
    auto w = new Wait();
-   w.toHalt();
-   writeln("########################################");
+//   w.toHalt();
+//   writeln("########################################");
    w.toDone();
 }

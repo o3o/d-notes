@@ -5,7 +5,10 @@ void main() {
    //writeln(create2.toPrettyString);
    //testExist;
    //useAppend;
-   noAppend;
+   //noAppend;
+   string json = `{"v_supply_sp": "a"}`;
+   Data data = deserializeJson!Data(json);
+   writeln(data);
 }
 
 /**
@@ -149,3 +152,9 @@ void useAppend() {
    writeln("con appendArrayElement");
    writeln(j.toString);
 }
+
+
+struct Data {
+   @name("v_supply_sp") string vSupplySp;
+}
+

@@ -7,7 +7,7 @@ import gtk.ApplicationWindow;
 
 import gobject.Type;
 import std.stdio;
-//import std.c.process;
+import core.stdc.stdlib : exit;
 
 /**
  * Usage ./builder /path/to/your/glade/file.glade

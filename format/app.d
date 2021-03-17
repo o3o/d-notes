@@ -40,6 +40,7 @@ void main(string[] args) {
    double x = 19.6432132231132;
    int i = 42;
    string s = "cul";
+
    // Precision
    // -----------
    //Flags:empty Width:empty Precision:3 FormatChar:f
@@ -100,4 +101,16 @@ void main(string[] args) {
 
    int[] arre = [10,11,20];
    assert("[%(0x%02x, %)]".format(arre) == "[0x0a, 0x0b, 0x14]");
+
+   // se ci sono piu' valori che segnaposto?
+   //
+   //assert("%d".format(10, 42) == "10");
+   assert("%d%%".format(10) == "10%");
+   writeln("%d%%".format(10));
+
+   // DIP1036
+   string name = "Orf";
+   string day = "12";
+   string q  = format!(i"Hello, $(name). Today is $(day).")
+   writeln(q);
 }

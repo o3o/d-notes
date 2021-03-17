@@ -66,6 +66,8 @@ void main(string[] args) {
    // strutttura
    enum Foo FOO = {name: "ODV", age: 54};
    assert(FOO.name == "ODV");
+
+   //Bar b = Bar!(Suit.spades);
 }
 
 struct Foo {
@@ -82,4 +84,8 @@ string suitToString(Suit e) {
 Suit stringToSuit(string s) {
    //return cast(Suit)s; Error: cannot cast expression s of type string to Suit
    return to!(Suit)(s);
+}
+
+
+struct Bar(Suit S) {
 }
