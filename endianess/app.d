@@ -35,6 +35,22 @@ unittest {
    assert(us[1] == 2);
 }
 unittest {
+   // 1964 e' 0x07ac
+   // in littleEndian
+   //
+   // 07 ac
+   // |   |   +---+
+   // |   +-->|   |
+   // |       +---+
+   // +------>|   |
+   //         +---+
+   short val = 1964;
+   ubyte[2] blob = nativeToLittleEndian(val);
+   assert(blob[0] == 0xac);
+   assert(blob[1] == 0x07);
+}
+
+unittest {
    // 1964 = 0x7AC
    ubyte[] blobL = [0xAC, 0x07];
    short s = blobL.read!(short, Endian.littleEndian)();
@@ -58,7 +74,6 @@ unittest {
 unittest {
    ubyte[] blob = [0xac, 0x07, 0x08, 0x00];
    auto i = blob.read!(int, Endian.littleEndian)();
-   writeln(i);
    assert(i == 0x807ac);
 }
 
@@ -106,7 +121,7 @@ unittest {
    for(int i = 0; i < 3; ++i) {
       s ~= blob.read!(char)();
    }
-   writeln(s);
+   assert(s == "O3O");
 }
 
 unittest {
@@ -114,24 +129,26 @@ unittest {
    //convertire un array di ubyte in stringa
    ubyte[] blob = [0x4f, 0x52, 0x46, 0x45, 0x4f];
    string s = cast(string)blob;
-   writeln(s);
+   assert(s == "ORFEO");
 }
 unittest {
-   ushort i = 0x8034;
-   ubyte[2] swappedI = nativeToLittleEndian(i);
-   assert(swappedI[0] == 0x80);
-   assert(swappedI[1] == 0x34);
-
    auto buffer = appender!(const (ubyte[]))();
    ushort[] a = [0x3480, 0x2010];
    foreach (e; a) {
       buffer.append!(ushort, Endian.littleEndian)(e);
    }
+   assert(buffer.data[0] == 0x80);
+   assert(buffer.data[1] == 0x34);
+   assert(buffer.data[2] == 0x10);
+   assert(buffer.data[3] == 0x20);
+}
+
+unittest {
    const(int[]) x = [0, 1];
    const(int)[] y = [0, 1];
    const int[] z = [0, 1]; // ==> const(int[])
-   // x ~= 1; NO
-   y ~= 1;
+   // x ~= 1; NO, perche il vettore e' constate
+   y ~= 1; // si perche i dati sono costanti
+   //y[0] = 5; // No
    // z ~= 1;  NO
-
 }
