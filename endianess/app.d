@@ -1,38 +1,58 @@
-import std.system;      
+// rdmd --main -unitest app.d
+import std.system;
 import std.bitmanip;
 import std.stdio;
 import std.array;
 
-void main(string[] args) { }
-unittest { 
-    short val = 1964;
-    ubyte[2] blob = nativeToBigEndian(val);
-    assert(blob[0] == 0x07);
-    assert(blob[1] == 0xac);
-    writefln("%s, %s", blob[0], blob[1]);
-    auto l = blob.length;
+unittest {
+   // 1964 e' 0x07ac
+   // in bigEndian
+   //
+   // 07 ac
+   // |   |   +---+
+   // +------>|   |
+   //     |   +---+
+   //     +-->|   |
+   //         +---+
+   short val = 1964;
+   ubyte[2] blob = nativeToBigEndian(val);
+   assert(blob[0] == 0x07);
+   assert(blob[1] == 0xac);
 
-    auto bb = nativeToBigEndian(l);
-    foreach (x; bb) {
-       writeln(x);
-       
-    }
-    auto b = bb[$-2 .. $];
-    writefln("length %s: %s, %s", b.length, b[0], b[1]);
+   size_t l = 2; //8 byres in x86
+   auto bb = nativeToBigEndian(l);
+   assert(bb.length == 8);
+   assert(bb[7] == 2);
+   auto b = bb[$-2 .. $];
+   assert(b.length == 2);
+   assert(b[0] == 0);
+   assert(b[1] == 2);
 
+   // per avere solo due bytes
+   ubyte[2] us = nativeToBigEndian!ushort(cast(ushort)l);
+   assert(us.length == 2);
+   assert(us[0] == 0);
+   assert(us[1] == 2);
 }
 unittest {
-   // 1964 = 0x7Ac
-   ubyte[] blobL = [0xac, 0x07];
-   auto s = blobL.read!(short, Endian.littleEndian)();
-   writeln(s);
+   // 1964 = 0x7AC
+   ubyte[] blobL = [0xAC, 0x07];
+   short s = blobL.read!(short, Endian.littleEndian)();
    assert(s == 1964);
+   //read consuma il buffer
+   assert(blobL.length == 0);
+
+   ubyte[] blob = [0xAC, 0x07, 0x3, 0x0];
+   short s0 = blob.read!(short, Endian.littleEndian)();
+   assert(s0 == 1964);
+   assert(blob.length == 2);
+
+   assert(blob.read!(short, Endian.littleEndian)());
+   assert(blob.length == 0);
 
    ubyte[] blobBig = [0x07, 0xac];
    auto t = blobBig.read!(short, Endian.bigEndian)();
-   writefln("%s big %s",blobBig, t);
    assert(t == 1964);
-
 }
 
 unittest {
@@ -49,13 +69,13 @@ unittest {
    writeln(blobcsharp.read!(float, Endian.littleEndian)());
    //Endian e' definito in std.system.
    alias read!(float, Endian.littleEndian, ubyte[]) rf;
-   
+
    ubyte[] buffer = [66, 0, 0, 0, 65, 200, 0, 0];
    assert(buffer.peek!float() == 32.0);
    assert(rf(buffer) != 32.0);
 }
 
-//http://dlang.org/phobos/std_bitmanip.html 
+//http://dlang.org/phobos/std_bitmanip.html
 unittest {
    ubyte[] blob = [0x40, 0xA0, 0x0,0x0];
    ubyte[] blobcsharp = [0x0, 0x0, 0xA0, 0x40];
@@ -63,7 +83,7 @@ unittest {
    writeln(blobcsharp.read!(float, Endian.littleEndian)());
 
    alias read!(float, Endian.littleEndian, ubyte[]) rf;
-   
+
    ubyte[] buffer = [66, 0, 0, 0, 65, 200, 0, 0];
    assert(buffer.peek!float() == 32.0);
    assert(rf(buffer) != 32.0);
@@ -108,7 +128,7 @@ unittest {
    foreach (e; a) {
       buffer.append!(ushort, Endian.littleEndian)(e);
    }
-   const(int[]) x = [0, 1]; 
+   const(int[]) x = [0, 1];
    const(int)[] y = [0, 1];
    const int[] z = [0, 1]; // ==> const(int[])
    // x ~= 1; NO
