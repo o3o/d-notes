@@ -117,11 +117,10 @@ unittest {
    writeln(s);
 }
 unittest {
-   writeln("native to litte");
-
    ushort i = 0x8034;
    ubyte[2] swappedI = nativeToLittleEndian(i);
-   writefln("%(0x%X %)", swappedI);
+   assert(swappedI[0] == 0x80);
+   assert(swappedI[1] == 0x34);
 
    auto buffer = appender!(const (ubyte[]))();
    ushort[] a = [0x3480, 0x2010];
