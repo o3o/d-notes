@@ -1,22 +1,27 @@
+// rdmd --main -unitest app.d
+/**
+ * Test del modulo bitop http://dlang.org/phobos/core_bitop.html
+ * This module contains a collection of bit-level operations
+ */
+module bitoptest;
+
 import std.stdio;
 import core.bitop;
-/*
- *Test del modulo bitop http://dlang.org/phobos/core_bitop.html
- *This module contains a collection of bit-level operations
+/**
+ * Test del bit
+ * Si usa bt (BitTest?), il prototipo e'
+ * int bt(in size_t* p, size_t bitnum);
+ * quindi non si puo' passare direttamente un byte
  */
-void main(string[] args) {
-   // Test del bit
-   // ----------------------------------------
-   // Si usa bt (BitTest?), il prototipo e'
-   // int bt(in size_t* p, size_t bitnum);
-   // quindi non si puo' passare direttamente un byte
+unittest {
    ubyte five = 0x05;
-   ulong input = five;
+   size_t input = five;
    assert(bt(&input, 0)); // bit 0
    assert(!bt(&input, 1));
    assert(bt(&input, 2));
    assert(bt(&input, 2) == 1); // equivalente
-
+}
+unittest {
    ubyte effe = 0x0F;
    ulong finput = effe;
    assert(bt(&finput, 0)); // bit 0
@@ -32,14 +37,22 @@ void main(string[] args) {
    //assert(bt(&(cast(size_t)d), 0));
    // perche' `cast(ulong)d is not an lvalue`:
 
+}
+unittest {
    // con una funzione
-   // ........................................
+   int bitTest(ubyte b, size_t bitnum) {
+      size_t input = b;
+      return bt(&input, bitnum);
+   }
    ubyte d = 0x0d;
    assert(bitTest(d, 0));
    assert(!bitTest(d, 1));
    assert(bitTest(d, 2));
    assert(bitTest(d, 3));
 
+}
+unittest {
+   size_t input = 0x05;
 
    // Test e reset del bit
    // ----------------------------------------
@@ -77,8 +90,9 @@ void main(string[] args) {
    three = input & 0xFF;
    assert(typeid(three) == typeid(ubyte));
    assert(three == 3);
+}
 
-
+unittest {
    // Test con array
    // ----------------------------------------
    size_t[2] array;
@@ -105,9 +119,4 @@ void main(string[] args) {
    assert(0x01 & engMask);
    assert(2 & engMask);
    assert(!(4 & engMask));
-}
-
-int bitTest(ubyte b, size_t bitnum) {
-   size_t input = b;
-   return bt(&input, bitnum);
 }
