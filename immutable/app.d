@@ -28,4 +28,17 @@ void main(string[] args) {
    B c = *b;
    (*b).x = 42;
    assert(c.x == 0);
+   auto r = Reader();
+   for (size_t i = 0; i < 10; ++i) {
+      immutable(int) x = r.read;
+      writeln(x + i);
+
+   }
 }
+struct Reader {
+   int read() {
+      writeln("read:::");
+      return 6;
+   }
+}
+

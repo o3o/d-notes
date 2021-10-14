@@ -45,7 +45,6 @@ void main(string[] args) {
    assert(o == Outcome.error);
    import std.stdio;
 
-<<<<<<< HEAD
    Outcome c0 = cast(Outcome)6;
    writeln("c0: ", c0); // cosa vale c0?
 
@@ -76,10 +75,12 @@ void main(string[] args) {
 }
 
 struct Foo {
+   import std.traits;
    string name;
    int age;
+}
+   /+
 
-   import std.traits;
    foreach (s; EnumMembers!Suit) {
       setSuitG!(s);
    }
@@ -94,7 +95,7 @@ struct Foo {
       writeln(i);
    }
 }
-
++/
 import std.conv;
 string suitToString(Suit e) {
    //return cast(string)e; Error: cannot cast expression e of type Suit to string

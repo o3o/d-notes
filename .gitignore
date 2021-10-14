@@ -19,3 +19,4 @@ vibe-json/src/ut.d
 vibe-json/test-runner
 *.exe
 algorithms/src/ut.d
+json_array/json_array
