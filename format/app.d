@@ -1,3 +1,4 @@
+// rdmd --main -unitest app.d
 /**
 http://dlang.org/phobos/std_format.html#formattedWrite
 
@@ -114,6 +115,6 @@ void main(string[] args) {
    // DIP1036
    string name = "Orf";
    string day = "12";
-   string q  = format!(i"Hello, $(name). Today is $(day).")
-   writeln(q);
+   //string q  = format!(i"Hello, $(name). Today is $(day).")
+   //writeln(q);
 }
