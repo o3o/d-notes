@@ -5,14 +5,33 @@ void main(string[] args) {
    //test0;
    //arrayOfArray;
 }
+/**
+ * Internamente JSONValue ha una `union` Store:
+ * ```
+ * union Store {
+ *       string                          str;
+ *       long                            integer;
+ *       ulong                           uinteger;
+ *       double                          floating;
+ *       JSONValue[string]               object;
+ *       JSONValue[]                     array;
+ *   }
+ * ```
+ * Le assegnazioni sono fatte usando `opAssign`
+ *
+ */
 unittest {
    //come aggiunge elementi ad un oggetto json?
    // di fatto on oggetto josn e' un array associativo
    JSONValue a = parseJSON(`{"a":10, "b": 20}`);
    // per aggiungere b..
    JSONValue b = parseJSON(`{"a":12, "d": 22}`);
-   // e' necessario aggiungere le chiavi singolarmente
-   foreach (string k, v; b) {
+   // b e' un `object, quindi il foreach utilizza `opApply` per gli oggetti
+   // che ha firma
+   // int opApply(scope int delegate(string key, ref JSONValue) dg)
+   // cioe' accetta una funzione con una chiave e un oggetto json
+   //
+   foreach (string k, JSONValue v; b) {
       a[k] = v;
    }
    writeln(a.toPrettyString);
@@ -31,6 +50,8 @@ unittest {
             "rmin" : { "value"  : 47, "unit": "omm"}
          }
       }`);
+   // anche qui a e' un object.
+   //
    foreach (string k, v; a) {
       writeln(k);
    }
@@ -50,37 +71,56 @@ unittest {
             "rmin" : { "value"  : 45, "unit": "omm"},
             "duration" : { "value"  : 47, "unit": "s"},
          }}`);
+   // a e' un object cioe' un AA `JSONValue[string]` cioe' un hash con chiave stringa e valori JSONValue.
    assert(a.object.length == 1);
    assert(a.object.keys[0] == "iso");
+   JSONValue[string] aa = a.object;
+   // la hash ha un unico elemento
+   assert(aa.length == 1);
+   // keys e' un array di stringhe con tutte le chiavi dell'AA
+   assert(aa.keys[0] == "iso");
+
    // come ottenere il contenuto di iso?
    JSONValue c = a.object[a.object.keys[0]];
    assert(c.object.length == 2);
    assert(c["rmin"]["unit"].str == "omm");
+   // oppure usando `opIndex`
+   JSONValue c1 = a[a.object.keys[0]];
+   assert(c1["rmin"]["unit"].str == "omm");
  }
 
 
 unittest {
    // come creare la struttura:
+   // ```
    // {
-   //    "iso":{
-   //    "rmin" : { "value"  : 45, "unit": "omm"},
-   //    "duration" : { "value"  : 47, "unit": "s"},
-   //},
+   //    "iso": {
+   //      "rmin" : { "value"  : 45, "unit": "omm"},
+   //      "duration" : { "value"  : 47, "unit": "s"},
+   //    }
+   // ```
+   //  { "value"  : 45, "unit": "omm"} e' un AA di due elementi, che hanno chiave `value` e
+   //  unit. Gli elementi devono essere dello stesso tipo ed infatti sono JSONValue, con valore 45 e "omm"
+   //
 
-   JSONValue a;
-   JSONValue s;
-   JSONValue p;
+   JSONValue rmin;
    // si crea il contento di rmin
-   p["value"] = 46;
-   p["unit"] = "ohm";
+   rmin["value"] = 46;
+   rmin["unit"] = "ohm";
+
+   JSONValue iso; // iso e' un AA che deve avere due chiavi rmin e duration
+
    // si crea rmin
-   s["rmin"] = p;
+   iso["rmin"] = rmin;
 
    // si crea un oggetto duration vuoto..
-   s["duration"] = JSONValue();
+   iso["duration"] = JSONValue();
    // si puo' ora assegnare un valore
-   s["duration"]["value"] = 5 ;
-   a["iso"] = s;
+   iso["duration"]["value"] = 5 ;
+
+   JSONValue a; // infine a e' un AA con una unica chiave iso
+
+   a["iso"] = iso;
    assert(a["iso"]["rmin"]["value"].integer == 46);
 
    // usando la stessa tecnica di duration...
@@ -91,7 +131,6 @@ unittest {
    assert(b["iso"]["rmin"]["value"].integer == 1964);
 }
 unittest {
-
    JSONValue a = parseJSON(`[
          "Messaggio 0",
          "Messaggio 1",
@@ -327,4 +366,29 @@ unittest {
    writeln(obj.toPrettyString);
 }
 
+unittest {
+   JSONValue a = parseJSON(`{
+         "iso":{
+            "rmin" : { "value"  : 45, "unit": "omm"},
+            "duration" : { "value"  : 47, "unit": "s"},
+         }
+      }`);
+   if (const(JSONValue)* isop = "iso" in a) {
+      // isop e' un puntatore all'elemento dell'AA con chiave "iso"
+      JSONValue iso = *isop;
+      foreach (string k, v; iso) {
+         writeln(k);
+      }
+      assert(iso["rmin"]["value"].integer == 45);
+      assert((*isop)["rmin"]["value"].integer == 45);
+      if (const(JSONValue)* rminp = "rmin" in *isop) {
+         assert((*rminp)["value"].integer == 45);
+         if (const(JSONValue)* valp = "value" in *rminp) {
+            assert((*valp).integer == 45);
+            assert(valp.integer == 45);
+         }
+      }
+   }
+
+}
 
