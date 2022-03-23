@@ -72,6 +72,15 @@ void main(string[] args) {
    assert(FOO.name == "ODV");
 
    //Bar b = Bar!(Suit.spades);
+   // come converte in stringa?
+   enum Status {
+      idle,
+      setET,
+      openBypass
+   }
+ string s = Status.openBypass;
+ writeln(s);
+
 }
 
 struct Foo {

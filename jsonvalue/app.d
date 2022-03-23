@@ -6,8 +6,19 @@ void main(string[] args) {
    //arrayOfArray;
 }
 unittest {
+   // le chiavi dell'oggetto non sono elencate di ordine di impostazione
+   JSONValue a = parseJSON(`{"prova" : 4, "a":10, "b": 20}`);
+ writeln("Words: ", a.object.keys);
+   string s;
+   foreach (string k, v; a) {
+      s ~= k;
+   }
+   //assert(s == "provaab", s);
+}
+
+unittest {
    //come aggiunge elementi ad un oggetto json?
-   // di fatto on oggetto josn e' un array associativo
+   // di fatto on oggetto json e' un array associativo
    JSONValue a = parseJSON(`{"a":10, "b": 20}`);
    // per aggiungere b..
    JSONValue b = parseJSON(`{"a":12, "d": 22}`);
@@ -17,6 +28,7 @@ unittest {
    }
    writeln(a.toPrettyString);
 }
+
 unittest {
    // elencare le chiavi di un oggetto json
    JSONValue a = parseJSON(`{
@@ -105,9 +117,10 @@ unittest {
    a[0] = "nuovo";
    writefln("m[0]: %s", a[0]);
 }
-// creazione di un array `["a", "b"...]
 unittest {
-   // si deve sempre partire da un JSONValue che contine l'array al suo interno
+   // Come creare  un array `["a", "b"...]?
+   //
+   // si deve sempre partire da un JSONValue che contiene l'array al suo interno
    JSONValue obj;
    JSONValue[] c;
    c ~= JSONValue("a");
@@ -229,6 +242,39 @@ unittest {
 
    writeln(seriesArray);
 }
+unittest {
+   // vari modi per creare un array
+   //
+   // JSONValue ha all'interno una union `store`
+   //   union Store
+    // {
+    //     string                          str;
+    //     long                            integer;
+    //     ulong                           uinteger;
+    //     double                          floating;
+    //     JSONValue[string]               object;
+    //     JSONValue[]                     array;
+    // }
+
+   int[] i;
+   // dichiarato cosi' `a` e' array
+   JSONValue a = JSONValue(i);
+   a.array ~= JSONValue(1964);
+   a.array ~= JSONValue(64);
+   assert(a.toString == "[1964,64]");
+
+   int[] x;
+   x ~= 1965;
+   x ~= 65;
+   JSONValue b = JSONValue(x);
+   assert(b.toString == "[1965,65]");
+
+   JSONValue[] ja;
+   ja ~= JSONValue(1964);
+   ja ~= JSONValue(3.1);
+   JSONValue c = JSONValue(ja);
+   writeln("         ", c.toString);
+}
 
 void test1() {
    JSONValue a = parseJSON(`{
@@ -327,4 +373,20 @@ unittest {
    writeln(obj.toPrettyString);
 }
 
-
+unittest {
+   writeln("usare il foreach");
+   writeln("--------------------");
+   // dfmt off
+   JSONValue json = parseJSON(`{
+         "type":"copy",
+         "key":"key_of_mycopy",
+         "let": {
+            "OVF": 999,
+            "p": 19.64,
+            "x": "y"
+         }}`);
+   // dfmt on
+   foreach (string k, JSONValue v; json["let"]) {
+      writefln("%s:%s", k, v);
+   }
+}

@@ -1,6 +1,6 @@
-
+import std.stdio;
 void foo(scope int a) {
-   counter = a;
+   int counter = a;
 }
 
 class A { }
@@ -16,4 +16,16 @@ void main() {
 
    A a = new A();
    foo(a);
+
+   writeln(Fun.VAR_1);
+
+
+}
+
+class Fun {
+   enum VAR_1 = 10;
+   enum VAR_2 = 11;
+   int sum() {
+      return VAR_2 + VAR_1;
+   }
 }
