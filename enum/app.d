@@ -72,8 +72,15 @@ void main(string[] args) {
    assert(FOO.name == "ODV");
 
    //Bar b = Bar!(Suit.spades);
-}
+   string s = Fun.Vars.a;
 
+   writeln(s, " " , Fun.Vars.a);
+}
+class Fun {
+   enum Vars : string {
+a = "10",
+      b = "11"}
+}
 struct Foo {
    import std.traits;
    string name;
