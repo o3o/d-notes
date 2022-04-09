@@ -9,11 +9,11 @@ unittest {
    // in bigEndian
    //
    // 07 ac
-   // |   |   +---+
-   // +------>|   |
-   //     |   +---+
-   //     +-->|   |
-   //         +---+
+   // |   |   +-------+
+   // +------>|       | 0
+   //     |   +-------+
+   //     +-->|       | 1
+   //         +-------+
    short val = 1964;
    ubyte[2] blob = nativeToBigEndian(val);
    assert(blob[0] == 0x07);
@@ -48,6 +48,17 @@ unittest {
    ubyte[2] blob = nativeToLittleEndian(val);
    assert(blob[0] == 0xac);
    assert(blob[1] == 0x07);
+
+   ushort v1 = 29;
+   ubyte[2] b1 = nativeToLittleEndian(v1);
+   assert(b1.length == 2);
+   assert(b1[0] == 29);
+   assert(b1[1] == 0);
+   ubyte[] slice;
+   slice ~= nativeToLittleEndian(v1);
+   assert(slice[0] == 29);
+   assert(slice[1] == 0);
+   assert(slice.length == 2);
 }
 
 unittest {
@@ -151,4 +162,27 @@ unittest {
    y ~= 1; // si perche i dati sono costanti
    //y[0] = 5; // No
    // z ~= 1;  NO
+}
+
+unittest {
+   // peek takes a range of ubytes and converts the first T.sizeof bytes to T.
+   // The value returned is converted from the given endianness to the native endianness. The range is not consumed.
+// 1964 = 0x7AC
+   ubyte[] blobL = [0xAC, 0x07];
+   short s0 = blobL.peek!(short, Endian.littleEndian)();
+   assert(s0 == 1964);
+
+   // di default e' bigendian
+   short s1 = blobL.peek!(short);
+   short s2 = blobL.peek!(short, Endian.bigEndian);
+   assert(s1 == s2);
+   assert(blobL.length == 2);
+}
+
+unittest {
+// 1964 = 0x7AC
+   ubyte[2] blobL = [0xAC, 0x07];
+   short s0 = littleEndianToNative!(short)(blobL);
+   assert(s0 == 1964);
+   assert(blobL.length == 2);
 }

@@ -120,3 +120,13 @@ unittest {
    assert(2 & engMask);
    assert(!(4 & engMask));
 }
+unittest {
+   import std.conv : to;
+   // impostare uno short
+   size_t input = 0;
+   bts(&input, 0);
+   bts(&input, 1);
+   ushort s = input.to!ushort;
+   assert(s == 3);
+
+}

@@ -73,9 +73,18 @@ void main(string[] args) {
 
    //Bar b = Bar!(Suit.spades);
    string s = Fun.Vars.a;
-
    writeln(s, " " , Fun.Vars.a);
+   // come converte in stringa?
+   enum Status {
+      idle,
+      setET,
+      openBypass
+   }
+ string ss = Status.openBypass;
+ writeln(ss);
+
 }
+
 class Fun {
    enum Vars : string {
 a = "10",
