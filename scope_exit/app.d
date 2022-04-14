@@ -1,13 +1,19 @@
 import std.stdio;
-
+/+
 void main() {
-   //test();
-   fun();
+   test();
+   test();
+   //fun();
    //bar();
 }
++/
+
+/**
+ * tratto dal libro di Ali
+ * http://ddili.org/ders/d.en/scope.html
+ */
 void test() {
    try {
-
       scope(exit) writeln("when exiting 1");
 
       scope(success) {
@@ -30,34 +36,41 @@ void throwsHalfTheTime() {
    throw new Exception("Invalid operator");
 }
 
+/**
+ * Esperimenti con scope(failure)
+ *
+ *
+ */
 void fun() {
    string msg;
    try {
-      /*handle exception*/
       a(false);
-      scope (failure)  msg = "A!";
+      scope (failure) msg = "A!";
       b(true);
       scope (failure)  msg = "B!";
 
    } catch (Exception e) {
       writeln(msg);
-
    }
 }
-
-void bar() {
-   try {
-      a(true);
-   } catch (Exception e) {
-      writeln("bar A");
-   }
+// il comportamento dello scope dipende dalla posizione?
+string bar0() {
+   string msg = "0";
+   scope (failure) msg = "1!";
+   raiseExc(true, "A");
+   return msg;
 }
-void a(bool e) {
+
+unittest {
+   writeln(bar0);
+}
+
+/**
+ * Genera una eccezione se raise e' true
+ */
+void raiseExc(bool raise, string msg) {
    if (e) {
-      throw new Exception("A operator");
-   } else{
-      writeln("A");
-
+      throw new Exception(msg);
    }
 }
 
@@ -66,6 +79,5 @@ void b(bool e) {
       throw new Exception("B operator");
    } else {
       writeln("B");
-
    }
 }

@@ -1,10 +1,7 @@
-// rdmd -unitest app.d
+// rdmd -unitest -main app.d
 import std.stdio;
 import std.json;
-void main(string[] args) {
-   //test0;
-   //arrayOfArray;
-}
+
 /**
  * Internamente JSONValue ha una `union` Store:
  * ```
@@ -23,7 +20,7 @@ void main(string[] args) {
 unittest {
    // le chiavi dell'oggetto non sono elencate di ordine di impostazione
    JSONValue a = parseJSON(`{"prova" : 4, "a":10, "b": 20}`);
- writeln("Words: ", a.object.keys);
+   writeln("Words: ", a.object.keys);
    string s;
    foreach (string k, v; a) {
       s ~= k;
@@ -143,68 +140,107 @@ unittest {
    assert(b["iso"]["rmin"]["value"].integer == 1964);
 }
 unittest {
+   // creare un array da stringa
    JSONValue a = parseJSON(`[
          "Messaggio 0",
          "Messaggio 1",
          "Messaggio 2",
          "Messaggio 3"
    ]`);
-   writefln("len: %s", a.array.length);
+   assert(a.array.length == 4);
    // se si usa una var. si deve fare il cast
    string m3 = a[3].get!string;
-   writefln("m[3]: %s", m3);
+   assert(m3 == "Messaggio 3");
    a[0] = "nuovo";
-   writefln("m[0]: %s", a[0]);
+   assert(a[0].str == "nuovo");
 }
+
 unittest {
    // Come creare  un array `["a", "b"...]?
+   // Primo metodo
    //
    // si deve sempre partire da un JSONValue che contiene l'array al suo interno
-   JSONValue obj;
    JSONValue[] c;
    c ~= JSONValue("a");
+
+   JSONValue obj;
    obj.array = c;
    writeln(obj.toString);
    // non funziona:
    //obj.array = JSONValue[];
 }
-// creazione di un array `["z", "b"...]
+
 unittest {
-   JSONValue obj2  =  ["z"];
+   // Come creare  un array `["a", "b"...]?
+   //
+   // Secondo metodo
+   // In questo modo lo Store e' JSONValue[]
+   JSONValue obj2  = ["z"];
+   assert(obj2.type == JSONType.array);
    obj2.array ~= JSONValue("b");
-   writeln("obj2 ", obj2.toString);
+   assert(obj2.toString == `["z","b"]`);
 
    // non funziona:
-   //JSONValue obj3 ;
+   //JSONValue obj3;
    //obj3.array ~= JSONValue("b");
-   //writeln("obj3 ", obj3.toString);
-   // funziona
+
+   // Terzo metodo
    int[] aa;
    JSONValue obj4 = JSONValue(aa);
+   assert(obj4.type == JSONType.array);
    obj4.array ~= JSONValue(2);
-   writeln("obj4 ", obj4.toString);
+   assert("[2]", obj4.toString);
 
    int[] a5;
    a5 ~= 1;
    a5 ~= 2;
    JSONValue obj5 = JSONValue(a5);
    obj5.array ~= JSONValue(42);
-   writeln("obj5 ", obj5.toString);
+   assert(obj5.toString, "[1,2,42]");
    // per accedere
-   writeln(obj5[0].get!int);
+   assert(obj5[0].get!int == 1);
 
-   // creare unn array all'nterno di un json
+   JSONValue obj6 = JSONValue(new int[](1));
+   assert(obj6.type == JSONType.array);
+   obj6.array ~= JSONValue(64);
+   obj6.array ~= JSONValue(65);
+   obj6.array ~= JSONValue(66);
+   assert(obj6[0].get!int == 0);//!!
+   assert(obj6[2].get!int == 65);
+   //assert(obj6.array.length == 3); NO
+   //JSONValue obj7 = JSONValue(JSONValue[]); //NO
+}
+unittest {
+   // creare un array vuoto
+   int[] aa;
+   JSONValue obj = JSONValue(aa);
+   assert(obj.type == JSONType.array);
+   assert("[]", obj.toString);
+
+   JSONValue obj2 = JSONValue(obj);
+   assert(obj2.type == JSONType.array);
+   assert("[[]]", obj2.toString);
+
+   JSONValue obj3 = JSONValue(JSONValue(aa));
+   assert(obj3.type == JSONType.array);
+   assert("[[]]", obj3.toString);
+}
+
+unittest {
+   // creare un array all'interno di un json:
    // {
-   // a : "a",
-   // tasks : []
+   //  a : "a",
+   //  tasks : []
    // }
    JSONValue root;
    root["a"] = JSONValue("x");
+   assert(root.type == JSONType.object);
+
    JSONValue[] arr;
    arr ~= JSONValue("ar");
    arr ~= JSONValue("cul");
    root["tasks"] = arr;
-   writeln(root.toString);
+   assert(root.toString == `{"a":"x","tasks":["ar","cul"]}`);
 
    /+
       //creare un array di array
