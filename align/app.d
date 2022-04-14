@@ -1,3 +1,4 @@
+// rdmd -main -unittest
 import std.stdio;
 import std.algorithm : equal;
 
@@ -223,8 +224,6 @@ struct S_32 {
    s.a = 8;
    assert(buf[0] == 1);
 }
-
-void main() { }
 
 ubyte[] toBuffer(T)(T s) {
    void* ptr = &s;

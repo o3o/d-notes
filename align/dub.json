@@ -1,8 +1,0 @@
-{
-	"name": "align",
-	"description": "A minimal D application.",
-	"copyright": "Copyright © 2014, o3o",
-	"authors": ["o3o"],
-	"dependencies": {
-	}
-}
