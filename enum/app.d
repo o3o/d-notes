@@ -72,17 +72,24 @@ void main(string[] args) {
    assert(FOO.name == "ODV");
 
    //Bar b = Bar!(Suit.spades);
+   string s = Fun.Vars.a;
+   writeln(s, " " , Fun.Vars.a);
    // come converte in stringa?
    enum Status {
       idle,
       setET,
       openBypass
    }
- string s = Status.openBypass;
- writeln(s);
+ string ss = Status.openBypass;
+ writeln(ss);
 
 }
 
+class Fun {
+   enum Vars : string {
+a = "10",
+      b = "11"}
+}
 struct Foo {
    import std.traits;
    string name;
